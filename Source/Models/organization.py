@@ -1,6 +1,6 @@
 from Source.abstract_reference import abstract_reference
 from Source.settings import settings
-
+from Source.argument_exception import argument_exception
 
 class organization(abstract_reference):
     __inn = ""
@@ -18,7 +18,7 @@ class organization(abstract_reference):
     @inn.setter
     def inn(self, value: str):
         if not isinstance(value.strip(), str) or len(value.strip()) != 12:
-            raise Exception("Некорректный ИНН!")
+            raise argument_exception("Некорректный ИНН!")
 
         self.__inn = value.strip()
 
@@ -29,7 +29,7 @@ class organization(abstract_reference):
     @account.setter
     def account(self, value: str):
         if not isinstance(value.strip(), str) or len(value.strip()) != 11:
-            raise Exception("Некорректный счет!")
+            raise argument_exception("Некорректный счет!")
 
         self.__account = value.strip()
 
@@ -40,7 +40,7 @@ class organization(abstract_reference):
     @bik.setter
     def bik(self, value: str):
         if not isinstance(value.strip(), str) or len(value.strip()) != 9:
-            raise Exception("Некорректный БИК!")
+            raise argument_exception("Некорректный БИК!")
 
         self.__bik = value.strip()
 
@@ -51,6 +51,6 @@ class organization(abstract_reference):
     @ownership_type.setter
     def ownership_type(self, value: str):
         if not isinstance(value.strip(), str) or len(value.strip()) != 5:
-            raise Exception("Некорректный вид собственности!")
+            raise argument_exception("Некорректный вид собственности!")
 
         self.__ownership_type = value.strip()

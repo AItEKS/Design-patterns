@@ -2,7 +2,6 @@ import uuid
 from abc import ABC
 from error_proxy import error_proxy
 
-
 class abstract_reference(ABC):
     __id: uuid.UUID
     __name: str = ""

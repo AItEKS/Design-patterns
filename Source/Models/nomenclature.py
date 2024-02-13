@@ -2,10 +2,6 @@ from Source.abstract_reference import abstract_reference
 
 
 class nomenclature(abstract_reference):
-    __group = None
-    __unit = None
-    __full_name = ""
-
     def __init__(self, name):
         super().__init__(name)
         self.__group = ""

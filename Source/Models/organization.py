@@ -10,6 +10,10 @@ class organization(abstract_reference):
 
     def __init__(self, name):
         super().__init__(name)
+        self.__settings = settings()
+
+    def set_settings(self, settings):
+        self.__settings = settings
 
     @property
     def inn(self):

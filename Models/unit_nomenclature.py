@@ -1,7 +1,5 @@
-from Src.reference import reference
+from Source.abstract_reference import abstract_reference
 
-#
-# Модель единицы измерения для номенклатуры
-#
-class unit_nomenclature(reference):
+
+class unit_nomenclature(abstract_reference):
     pass

@@ -1,5 +1,3 @@
-
-
 class error_proxy:
     __error_text = ""
     __error_source = ""

@@ -1,7 +1,7 @@
-from Src.reference import reference
+from Source.abstract_reference import abstract_reference
 
 
-class nomenclature(reference):
+class nomenclature(abstract_reference):
     " Группа номенклатуры "
     _group = None
     " Единица измерения "
@@ -13,7 +13,7 @@ class nomenclature(reference):
         return self._group
     
     @group.setter
-    def group(self, value: reference):
+    def group(self, value: abstract_reference):
         " Группа номенклатуры "
         if value == "":
             self._error.set_error_source("Некорректно указана группа", self)
@@ -26,9 +26,9 @@ class nomenclature(reference):
         return self._unit
     
     @unit.setter
-    def unit(self, value: reference):
+    def unit(self, value: abstract_reference):
         " Единица измерения "
         if value == "":
             self._error.set_error_source("Некорректно указана единица измерения", self)
             
-        self._unit = value    
+        self._unit = value

@@ -1,6 +1,6 @@
-from error_proxy import error_proxy
+from Source.error_proxy import error_proxy
 import unittest
-from argument_exception import argument_exception
+from Source.argument_exception import argument_exception
 
 
 

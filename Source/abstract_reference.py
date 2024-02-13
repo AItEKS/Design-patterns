@@ -1,6 +1,7 @@
 import uuid
 from abc import ABC
 from error_proxy import error_proxy
+from argument_exception import argument_exception
 
 
 class abstract_reference(ABC):
@@ -43,12 +44,12 @@ class abstract_reference(ABC):
     @name.setter
     def name(self, value: str):
         if not isinstance(value, str):
-            raise Exception("Неверный аргумент!")
+            raise argument_exception("Неверный аргумент!")
 
         if len(value.strip()) > 50:
-            raise Exception("Превышена максимальная длина наименования!")
+            raise argument_exception("Превышена максимальная длина наименования!")
 
         if value == "":
-            raise Exception("Некорректное значение наименование!")
+            raise argument_exception("Некорректное значение наименование!")
 
         self.__name = value.strip()

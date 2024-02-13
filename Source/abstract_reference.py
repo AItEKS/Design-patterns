@@ -41,9 +41,11 @@ class abstract_reference(ABC):
 
     @name.setter
     def name(self, value: str):
-
         if not isinstance(value, str):
             raise Exception("Неверный аргумент!")
+
+        if len(value.strip()) > 50:
+            raise Exception("Превышена максимальная длина наименования!")
 
         if value == "":
             raise Exception("Некорректное значение наименование!")

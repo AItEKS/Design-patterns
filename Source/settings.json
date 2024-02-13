@@ -1,0 +1,8 @@
+{
+    "name": "Company",
+    "inn": "123456789012",
+    "account": "12345678901",
+    "correspondent_account": "98765432109",
+    "bik": "987654321",
+    "ownership_type": "ABCDE"
+}

@@ -77,12 +77,3 @@ class error_proxy:
             self.error_source = f"ИСКЛЮЧЕНИЕ! {type(exception)}"
         else:
             self.error_text = ""
-            
-                
-        
-        
-                    
-        
-        
-        
-        

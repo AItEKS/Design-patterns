@@ -1,4 +1,4 @@
-from Src.reference import reference
+from Source.reference import reference
 
 #
 # Модель группу номенклатуры

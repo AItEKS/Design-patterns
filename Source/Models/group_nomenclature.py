@@ -1,8 +1,5 @@
-from Source.reference import reference
+from Source.abstract_reference import abstract_reference
 
-#
-# Модель группу номенклатуры
-# 
-class group_nomenclature(reference):
+
+class group_nomenclature(abstract_reference):
     pass
-    

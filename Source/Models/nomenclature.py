@@ -2,33 +2,27 @@ from Source.abstract_reference import abstract_reference
 
 
 class nomenclature(abstract_reference):
-    " Группа номенклатуры "
-    _group = None
-    " Единица измерения "
-    _unit = None
+    __group = None
+    __unit = None
     
     @property
     def group(self):
-        " Группа номенклатуры "
-        return self._group
+        return self.__group
     
     @group.setter
     def group(self, value: abstract_reference):
-        " Группа номенклатуры "
         if value == "":
-            self._error.set_error_source("Некорректно указана группа", self)
+            self.error.set_error_source("Некорректно указана группа", self)
             
-        self._group = value    
+        self.__group = value
     
     @property
     def unit(self):
-        " Единица измерения "
-        return self._unit
+        return self.__unit
     
     @unit.setter
     def unit(self, value: abstract_reference):
-        " Единица измерения "
         if value == "":
-            self._error.set_error_source("Некорректно указана единица измерения", self)
+            self.error.set_error_source("Некорректно указана единица измерения", self)
             
-        self._unit = value
+        self.__unit = value

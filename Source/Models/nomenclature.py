@@ -4,6 +4,7 @@ from Source.abstract_reference import abstract_reference
 class nomenclature(abstract_reference):
     __group = None
     __unit = None
+    __full_name = ""
     
     @property
     def group(self):
@@ -26,3 +27,14 @@ class nomenclature(abstract_reference):
             self.error.set_error_source("Некорректно указана единица измерения", self)
             
         self.__unit = value
+
+    @property
+    def full_name(self):
+        return self.__full_name
+
+    @full_name.setter
+    def full_name(self, value: str):
+        if len(value) > 255:
+            self.error.set_error_source("Превышена максимальная длина для полного наименования", self)
+
+        self.__full_name = value

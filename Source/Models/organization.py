@@ -1,22 +1,11 @@
-class settings:
-    def __init__(self):
-        self.__name = ""
-        self.__inn = ""
-        self.__account = ""
-        self.__correspondent_account = ""
-        self.__bik = ""
-        self.__ownership_type = ""
+from Source.abstract_reference import abstract_reference
 
-    @property
-    def name(self):
-        return self.__name
 
-    @name.setter
-    def name(self, value: str):
-        if not isinstance(value.strip(), str):
-            raise Exception("Некорректное наименование!")
-
-        self.__name = value.strip()
+class organization(abstract_reference):
+    __inn = ""
+    __bik = ""
+    __account = ""
+    __ownership_type = ""
 
     @property
     def inn(self):
@@ -39,17 +28,6 @@ class settings:
             raise Exception("Некорректный счет!")
 
         self.__account = value.strip()
-
-    @property
-    def correspondent_account(self):
-        return self.__correspondent_account
-
-    @correspondent_account.setter
-    def correspondent_account(self, value: str):
-        if not isinstance(value.strip(), str) or len(value.strip()) != 11:
-            raise Exception("Некорректный корреспондентский счет!")
-
-        self.__correspondent_account = value.strip()
 
     @property
     def bik(self):

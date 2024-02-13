@@ -1,4 +1,4 @@
-from Source.setting import settings
+from Source.settings import settings
 from Source.settings_manager import settings_manager
 import unittest
 

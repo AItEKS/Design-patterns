@@ -1,7 +1,7 @@
 import os
 import json
 import uuid
-from Source.setting import settings
+from Source.settings import settings
 from argument_exception import argument_exception
 
 class settings_manager(object):

@@ -7,6 +7,9 @@ class organization(abstract_reference):
     __account = ""
     __ownership_type = ""
 
+    def __init__(self, name):
+        super().__init__(name)
+
     @property
     def inn(self):
         return self.__inn

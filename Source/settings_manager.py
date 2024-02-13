@@ -2,7 +2,7 @@ import os
 import json
 import uuid
 from Source.setting import settings
-
+from argument_exception import argument_exception
 
 class settings_manager(object):
     # Уникальный номер
@@ -19,7 +19,7 @@ class settings_manager(object):
 
     def convert(self):
         if len(self.__data) == 0:
-            raise Exception("Невозможно создать объект типа settings.py")
+            raise argument_exception("Невозможно создать объект типа settings.py")
 
         fields = dir(self.__settings.__class__)
         for field in fields:
@@ -35,10 +35,10 @@ class settings_manager(object):
 
     def open(self, file_name: str) -> bool:
         if not isinstance(file_name, str):
-            raise Exception("ERROR: Неверный аргумент!")
+            raise argument_exception("ERROR: Неверный аргумент!")
 
         if file_name == "":
-            raise Exception("ERROR: Неверный аргумент!")
+            raise argument_exception("ERROR: Неверный аргумент!")
 
         self.__file_name = file_name.strip()
 
@@ -71,7 +71,7 @@ class settings_manager(object):
         """
         # Проверяем, существует ли заданный файл
         if not os.path.exists(self.__file_name):
-            raise Exception(f"ERROR: Файл {self.__file_name} не существует!")
+            raise argument_exception(f"ERROR: Файл {self.__file_name} не существует!")
 
         # Открываем файл и загружаем данные
         with open(self.__file_name, "r") as read_file:

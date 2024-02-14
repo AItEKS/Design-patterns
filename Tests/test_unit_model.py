@@ -1,22 +1,30 @@
 import unittest
 from Source.Models.unit import unit_model
+from Source.argument_exception import argument_exception
 
 
-class test_unit_model(unittest.TestCase):
-    def setUp(self):
-        self.unit = unit_model("Length")
-        self.unit.base_unit = "m"
-        self.unit.unit_ratio = "1"
+class UnitModelTest(unittest.TestCase):
+    def test_unit_model(self):
+        # Подготовка
+        name = "Length"
+        base_unit = "meter"
+        unit_ratio = "100 centimeters"
 
-    def test_init(self):
-        self.assertEqual(self.unit.name, "Length")
-        self.assertEqual(self.unit.base_unit, "m")
-        self.assertEqual(self.unit.unit_ratio, "1")
+        unit = unit_model(name, base_unit, unit_ratio)
 
-    def test_set_base_unit(self):
-        self.unit.base_unit = "mm"
-        self.assertEqual(self.unit.base_unit, "mm")
+        # Проверка
+        self.assertEqual(unit.name, name)
+        self.assertEqual(unit.base_unit, base_unit)
+        self.assertEqual(unit.unit_ratio, unit_ratio)
 
-    def test_set_unit_ratio(self):
-        self.unit.unit_ratio = "1000"
-        self.assertEqual(self.unit.unit_ratio, "1000")
+        with self.assertRaises(argument_exception):
+            unit.base_unit = ""
+
+        with self.assertRaises(argument_exception):
+            unit.unit_ratio = ""
+
+        with self.assertRaises(argument_exception):
+            unit.base_unit = 123
+
+        with self.assertRaises(argument_exception):
+            unit.unit_ratio = 456

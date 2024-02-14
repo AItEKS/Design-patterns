@@ -4,7 +4,7 @@ from Source.abstract_reference import abstract_reference
 class nomenclature_model(abstract_reference):
     def __init__(self, name):
         super().__init__(name)
-        self.__group = ""
+        self.__group = None
         self.__unit = ""
         self.__full_name = ""
 

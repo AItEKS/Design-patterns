@@ -1,7 +1,7 @@
 from Source.abstract_reference import abstract_reference
 
 
-class unit(abstract_reference):
+class unit_model(abstract_reference):
     def __init__(self, name, base_unit: str = None, unit_ratio: str = None):
         super().__init__(name)
         self.__base_unit = base_unit

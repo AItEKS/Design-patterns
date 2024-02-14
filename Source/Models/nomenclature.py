@@ -1,7 +1,7 @@
 from Source.abstract_reference import abstract_reference
 
 
-class nomenclature(abstract_reference):
+class nomenclature_model(abstract_reference):
     def __init__(self, name):
         super().__init__(name)
         self.__group = ""

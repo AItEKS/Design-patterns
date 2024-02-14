@@ -3,7 +3,7 @@ from Source.Models.unit import unit_model
 from Source.argument_exception import argument_exception
 
 
-class UnitModelTest(unittest.TestCase):
+class test_unit_model(unittest.TestCase):
     def test_unit_model(self):
         # Подготовка
         name = "Length"

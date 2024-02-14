@@ -14,7 +14,7 @@ class nomenclature_model(abstract_reference):
 
     @group.setter
     def group(self, value: abstract_reference):
-        if value == "":
+        if value != None:
             self.error.set_error_source("Некорректно указана группа!", self)
 
         self.__group = value

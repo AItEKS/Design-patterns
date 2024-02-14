@@ -15,7 +15,7 @@ class nomenclature_model(abstract_reference):
     @group.setter
     def group(self, value: abstract_reference):
         if value == "":
-            self.error.set_error_source("Некорректно указана группа", self)
+            self.error.set_error_source("Некорректно указана группа!", self)
 
         self.__group = value
 
@@ -26,7 +26,7 @@ class nomenclature_model(abstract_reference):
     @unit.setter
     def unit(self, value: abstract_reference):
         if value == "":
-            self.error.set_error_source("Некорректно указана единица измерения", self)
+            self.error.set_error_source("Некорректно указана единица измерения!", self)
 
         self.__unit = value
 
@@ -37,6 +37,6 @@ class nomenclature_model(abstract_reference):
     @full_name.setter
     def full_name(self, value: str):
         if len(value) > 255:
-            self.error.set_error_source("Превышена максимальная длина для полного наименования", self)
+            self.error.set_error_source("Превышена максимальная длина для полного наименования!", self)
 
         self.__full_name = value

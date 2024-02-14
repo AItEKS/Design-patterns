@@ -26,6 +26,6 @@ class unit_model(abstract_reference):
     @unit_ratio.setter
     def unit_ratio(self, value):
         if not isinstance(value, str) or value.strip() == "":
-            raise argument_exception("Некорректный коэффицент пересчёта!")
+            raise argument_exception("Некорректный коэффициент пересчёта!")
 
         self.__unit_ratio = value.strip()

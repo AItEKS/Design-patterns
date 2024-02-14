@@ -1,7 +1,7 @@
 import uuid
 from abc import ABC
-from error_proxy import error_proxy
-from argument_exception import argument_exception
+from Source.error_proxy import error_proxy
+from Source.argument_exception import argument_exception
 
 
 class abstract_reference(ABC):

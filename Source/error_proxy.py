@@ -42,7 +42,7 @@ class error_proxy:
         if not isinstance(value, str):
             raise Exception("Некорректно передан аргумент!")
 
-        if (value.strip() == ""):
+        if value.strip() == "":
             return
 
         self.__error_source = value.strip()

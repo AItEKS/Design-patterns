@@ -1,5 +1,4 @@
 from Source.abstract_reference import abstract_reference
-from Source.operation_exception import operation_exception
 from Source.argument_exception import argument_exception
 
 class unit_model(abstract_reference):

@@ -5,7 +5,7 @@ class nomenclature_model(abstract_reference):
     def __init__(self, name):
         super().__init__(name)
         self.__group = None
-        self.__unit = ""
+        self.__unit = None
         self.__full_name = ""
 
     @property
@@ -25,7 +25,7 @@ class nomenclature_model(abstract_reference):
 
     @unit.setter
     def unit(self, value: abstract_reference):
-        if value == "":
+        if value != None:
             self.error.set_error_source("Некорректно указана единица измерения!", self)
 
         self.__unit = value

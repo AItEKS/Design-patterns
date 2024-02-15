@@ -1,7 +1,7 @@
 from Source.error_proxy import error_proxy
 import unittest
+from Source.operation_exception import operation_exception
 from Source.argument_exception import argument_exception
-
 
 class test_errors(unittest.TestCase):
     def test_check_argument_exception(self):

@@ -1,9 +1,9 @@
 from Source.abstract_reference import abstract_reference
+from Source.operation_exception import operation_exception
 from Source.argument_exception import argument_exception
 
-
 class unit_model(abstract_reference):
-    def __init__(self, name, base_unit: str = None, unit_ratio: str = None):
+    def __init__(self, name, base_unit: str = None, unit_ratio: int = None):
         super().__init__(name)
         self.base_unit = base_unit
         self.unit_ratio = unit_ratio
@@ -25,7 +25,7 @@ class unit_model(abstract_reference):
 
     @unit_ratio.setter
     def unit_ratio(self, value):
-        if not isinstance(value, str) or value.strip() == "":
+        if not isinstance(value, int) or value < 0:
             raise argument_exception("Некорректный коэффициент пересчёта!")
 
-        self.__unit_ratio = value.strip()
+        self.__unit_ratio = value

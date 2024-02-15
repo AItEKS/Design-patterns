@@ -1,6 +1,7 @@
 from Source.abstract_reference import abstract_reference
 from Source.argument_exception import argument_exception
 
+
 class unit_model(abstract_reference):
     def __init__(self, name, base_unit: str = None, unit_ratio: int = None):
         super().__init__(name)

@@ -1,4 +1,4 @@
-from error_proxy import error_proxy
+from Source.error_proxy import error_proxy
 
 
 class argument_exception(Exception):

@@ -1,4 +1,4 @@
-from Source.setting import settings
+from Source.settings import settings
 from Source.settings_manager import settings_manager
 import unittest
 
@@ -9,11 +9,11 @@ class test_settings(unittest.TestCase):
         # Подготовка
         manager1 = settings_manager()
         manager2 = settings_manager()
-        
+
         # Проверка
         print(str(manager1.number))
         print(str(manager2.number))
-    
+
         assert manager1.number == manager2.number
 
     def test_check_name(self):
@@ -25,24 +25,24 @@ class test_settings(unittest.TestCase):
 
         # Проверка
         assert item.name == "a"
-        
+
     def test_check_manager_convert(self):
         # Подготовка
         manager = settings_manager()
         manager.open("settings.json")
-         
+
         # Действие
-        manager.convert()       
-        
+        manager.convert()
+
         # Проверка    
-        
+
     def test_check_open_settings(self):
         # Подготовка
         manager = settings_manager()
-        
+
         # Действие
         result = manager.open("settings.json")
-        
+
         # Проверка
         print(manager.data)
         assert result == True
@@ -75,12 +75,13 @@ class test_settings(unittest.TestCase):
         self.assertEqual(item.bik, data["bik"])
         self.assertEqual(item.ownership_type, data["ownership_type"])
 
+
 def test_check_open_settings_with_custom_path(self):
     # Подготовка
     manager = settings_manager()
 
     # Действие
-    result = manager.open("settings.json") #путь к файлу настроек
+    result = manager.open("settings.json")  # путь к файлу настроек
 
     # Проверка
     self.assertTrue(result)

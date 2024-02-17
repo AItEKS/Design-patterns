@@ -21,3 +21,5 @@
     self.assertEqual(manager.data["ownership_type"], "ABCDE")
    ```
 3. Добавлен value.strip() в Source/settings.py для всех определений переменных
+
+4. Попытка создать pull

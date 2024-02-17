@@ -15,6 +15,7 @@ class settings:
     def name(self, value: str):
         if not isinstance(value.strip(), str):
             raise Exception("Некорректное наименование!")
+
         self.__name = value.strip()
 
     @property
@@ -25,6 +26,7 @@ class settings:
     def inn(self, value: str):
         if not isinstance(value.strip(), str) or len(value.strip()) != 12:
             raise Exception("Некорректный ИНН!")
+
         self.__inn = value.strip()
 
     @property
@@ -35,6 +37,7 @@ class settings:
     def account(self, value: str):
         if not isinstance(value.strip(), str) or len(value.strip()) != 11:
             raise Exception("Некорректный счет!")
+
         self.__account = value.strip()
 
     @property
@@ -45,6 +48,7 @@ class settings:
     def correspondent_account(self, value: str):
         if not isinstance(value.strip(), str) or len(value.strip()) != 11:
             raise Exception("Некорректный корреспондентский счет!")
+
         self.__correspondent_account = value.strip()
 
     @property
@@ -55,6 +59,7 @@ class settings:
     def bik(self, value: str):
         if not isinstance(value.strip(), str) or len(value.strip()) != 9:
             raise Exception("Некорректный БИК!")
+
         self.__bik = value.strip()
 
     @property
@@ -65,4 +70,5 @@ class settings:
     def ownership_type(self, value: str):
         if not isinstance(value.strip(), str) or len(value.strip()) != 5:
             raise Exception("Некорректный вид собственности!")
+
         self.__ownership_type = value.strip()

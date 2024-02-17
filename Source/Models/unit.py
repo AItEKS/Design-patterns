@@ -3,11 +3,13 @@ from Source.argument_exception import argument_exception
 
 
 class unit_model(abstract_reference):
-    def __init__(self, name, base_unit: str = None, unit_ratio: int = None):
-        super().__init__(name)
+    # Инициализация объекта
+    def init(self, name, base_unit: str = None, unit_ratio: int = None):
+        super().init(name)
         self.base_unit = base_unit
         self.unit_ratio = unit_ratio
 
+    # Геттер и сеттер для поля base_unit
     @property
     def base_unit(self):
         return self.__base_unit
@@ -19,6 +21,7 @@ class unit_model(abstract_reference):
 
         self.__base_unit = value.strip()
 
+    # Геттер и сеттер для поля unit_ratio
     @property
     def unit_ratio(self):
         return self.__unit_ratio

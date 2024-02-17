@@ -2,7 +2,7 @@ from Source.abstract_reference import abstract_reference
 from Source.settings import settings
 from Source.argument_exception import argument_exception
 
-# Класс, представляющий модель организации
+
 class organization_model(abstract_reference):
     # ИНН организации
     inn = ""

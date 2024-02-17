@@ -2,20 +2,25 @@ from Source.abstract_reference import abstract_reference
 from Source.settings import settings
 from Source.argument_exception import argument_exception
 
-
+# Класс, представляющий модель организации
 class organization_model(abstract_reference):
-    __inn = ""
+    # ИНН организации
+    inn = ""
+    # БИК банка
     __bik = ""
+    # Номер счета
     __account = ""
+    # Вид собственности
     __ownership_type = ""
 
-    def __init__(self, name):
-        super().__init__(name)
+    def __init(self, name):
+        super().init(name)
         self.__settings = settings()
 
     def set_settings(self, settings):
         self.__settings = settings
 
+    # Геттер и сеттер для ИНН
     @property
     def inn(self):
         return self.__inn
@@ -27,6 +32,7 @@ class organization_model(abstract_reference):
 
         self.__inn = value.strip()
 
+    # Геттер и сеттер для номера счета
     @property
     def account(self):
         return self.__account
@@ -38,6 +44,7 @@ class organization_model(abstract_reference):
 
         self.__account = value.strip()
 
+    # Геттер и сеттер для БИК
     @property
     def bik(self):
         return self.__bik
@@ -49,6 +56,7 @@ class organization_model(abstract_reference):
 
         self.__bik = value.strip()
 
+    # Геттер и сеттер для вида собственности
     @property
     def ownership_type(self):
         return self.__ownership_type

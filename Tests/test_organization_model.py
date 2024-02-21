@@ -1,25 +1,48 @@
+from Source.Models.group import group_model
+from Source.Models.nomenclature import nomenclature_model
+from Source.Models.unit import unit_model
+from Source.exceptions import argument_exception
+
 import unittest
-from Source.settings_manager import settings_manager
-from Source.Models.organization import organization_model
 
 
-class test_organization_model(unittest.TestCase):
-    def setUp(self):
-        self.settings_manager = settings_manager()
-        self.settings_manager.open("settings.json")
-        self.settings_manager.convert()
-        self.settings = self.settings_manager.data
+#
+# Набор автотестов для проверки работы моделей связанных с номенклатурой
+#
+class nomenclature_test(unittest.TestCase):
 
-    def test_organization_creation_with_settings(self):
-        organization = organization_model("Test Organization")
+    # 
+    # Проверить создание новой карточки номенклатуры
+    #
+    def test_create_nomenclature(self):
+        # Подготовка
+        group = group_model("test group")
+        item = nomenclature_model("test")
+        unit = unit_model("test unit")
 
-        organization.inn = self.settings["inn"]
-        organization.account = self.settings["account"]
-        organization.bik = self.settings["bik"]
-        organization.ownership_type = self.settings["ownership_type"]
+        # Действие
+        item.description = "test description"
+        item.group = group
+        item.unit = unit
 
-        self.assertEqual(organization.name, "Test Organization")
-        self.assertEqual(organization.inn, self.settings["inn"])
-        self.assertEqual(organization.account, self.settings["account"])
-        self.assertEqual(organization.bik, self.settings["bik"])
-        self.assertEqual(organization.ownership_type, self.settings["ownership_type"])
+        # Проверка
+        assert item is not None
+
+    # 
+    # Проверить создание новой карточки номенклатуры с ошибкой
+    #
+    def test_create_nomenclature_fail_name(self):
+        # Подготовка
+        group = group_model("test group")
+        item = nomenclature_model("test nomenclature")
+        unit = unit_model("test unit")
+        item.description = "test description"
+        item.group = group
+        item.unit = unit
+
+        # Действие
+        with self.assertRaises(argument_exception) as context:
+            item.name = "11111111111111111111111111111111111111111111111111111111111111111111111111"
+
+        # Проверка    
+        self.assertTrue(f'Есть нужное исключение - {context.exception}')

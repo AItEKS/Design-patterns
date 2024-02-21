@@ -6,6 +6,7 @@ class settings:
         self.__correspondent_account = ""
         self.__bik = ""
         self.__ownership_type = ""
+        self.__first_start = True
 
     @property
     def name(self):
@@ -72,3 +73,14 @@ class settings:
             raise Exception("Некорректный вид собственности!")
 
         self.__ownership_type = value.strip()
+
+    @property
+    def is_first_start(self):
+        """
+           Флаг Первый старт
+        """
+        return self._first_start
+
+    @is_first_start.setter
+    def is_first_start(self, value: bool):
+        self._first_start = value

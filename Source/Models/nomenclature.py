@@ -1,43 +1,31 @@
 from Source.abstract_reference import abstract_reference
+from Source.exceptions import exception_proxy
 
 
 class nomenclature_model(abstract_reference):
-    # Инициализация объекта
-    def init(self, name):
-        super().init(name)
-        self.__group = None
-        self.__unit = None
-        self.__full_name = ""
+    " Группа номенклатуры "
+    __group = None
+    " Единица измерения "
+    __unit = None
 
-    # Геттер и сеттер для поля group
     @property
     def group(self):
+        " Группа номенклатуры "
         return self.__group
 
     @group.setter
     def group(self, value: abstract_reference):
-        if value != None:
-            self.error.set_error_source("Некорректно указана группа!", self)
+        " Группа номенклатуры "
+        exception_proxy.validate(value, abstract_reference)
         self.__group = value
 
-    # Геттер и сеттер для поля unit
     @property
     def unit(self):
+        " Единица измерения "
         return self.__unit
 
     @unit.setter
     def unit(self, value: abstract_reference):
-        if value != None:
-            self.error.set_error_source("Некорректно указана единица измерения!", self)
+        " Единица измерения "
+        exception_proxy.validate(value, abstract_reference)
         self.__unit = value
-
-    # Геттер и сеттер для поля full_name
-    @property
-    def full_name(self):
-        return self.__full_name
-
-    @full_name.setter
-    def full_name(self, value: str):
-        if len(value) > 255:
-            self.error.set_error_source("Превышена максимальная длина для полного наименования!", self)
-        self.__full_name = value

@@ -5,6 +5,7 @@ from Source.settings import settings
 from Source.Storage.storage import storage
 from Source.exceptions import exception_proxy
 from Source.Models.receipe import receipe_model
+from Source.Models.storage import storage_model
 
 
 class start_factory:
@@ -135,7 +136,26 @@ class start_factory:
         item16.unit = unit_model.create_unit_kilogram()
         my_list.append(item16)
 
+        item17 = nomenclature_model('Ванилин')
+        item17.group = group_model.create_group('Приправа')
+        item17.unit = unit_model.create_unit_kilogram()
+        my_list.append(item17)
+
         return my_list
+
+    @staticmethod
+    def create_receipts():
+        my_receipts = []
+
+        recipe1 = storage_model('Вафли хрустящие в вафельнице')
+        recipe1.add_recipe('Мука', 100, 'gramm')
+        recipe1.add_recipe('Сахар', 80, 'gramm')
+        recipe1.add_recipe('Сливочное масло', 70, 'gramm')
+        recipe1.add_recipe('Яйцо куриное', 1, 'shtuka')
+        recipe1.add_recipe('Яйцо куриное', 1, 'shtuka')
+        my_receipts.append(recipe1)
+
+        return my_receipts
 
     def create(self):
         result = []

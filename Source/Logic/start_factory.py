@@ -4,10 +4,11 @@ from Source.Models.unit import unit_model
 from Source.settings import settings
 from Source.Storage.storage import storage
 from Source.exceptions import exception_proxy
+from Source.Models.receipe import receipe_model
 
 
 class start_factory:
-    __oprions: settings = None
+    __options: settings = None
     __storage: storage = None
 
     def __build(self):
@@ -18,9 +19,9 @@ class start_factory:
         self.__storage.data[storage.group_key()] = start_factory.create_nomenclature()
         self.__storage.data[storage.unit_key()] = start_factory.create_nomenclature()
 
-    def __init__(self, _options: settings, __storage: storage = None) -> None:
-        exception_proxy.validate(_options, settings)
-        self.__oprions = _options
+    def __init__(self, __options: settings, __storage: storage = None) -> None:
+        exception_proxy.validate(__options, settings)
+        self.__options = __options
         self.__storage = __storage
 
         self.__build()
@@ -138,8 +139,8 @@ class start_factory:
 
     def create(self):
         result = []
-        if self.__oprions.is_first_start == True:
-            self.__oprions.is_first_start = False
+        if self.__options.is_first_start == True:
+            self.__options.is_first_start = False
 
             # Формируем и зпоминаем номеклатуру
             result = start_factory.create_nomenclature()

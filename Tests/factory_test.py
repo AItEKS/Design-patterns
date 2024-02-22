@@ -11,7 +11,6 @@ import unittest
 # Набор автотестов для проверки работы фабричного метода
 # #
 class factory_test(unittest.TestCase):
-
     #
     # Проверка создания ед. измерения
     #

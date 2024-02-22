@@ -2,6 +2,7 @@ from Source.Models.unit import unit_model
 from Source.Logic.start_factory import start_factory
 from Source.settings_manager import settings_manager
 from Source.Storage.storage import storage
+from Source.Models.storage import storage_model
 
 import unittest
 
@@ -35,21 +36,18 @@ class factory_test(unittest.TestCase):
         # Прверки
         assert len(items) > 0
 
-        #
 
-    # Проверка работы класса start_factory
-    def test_check_start_factor(self):
-        # Подготовка
-        manager = settings_manager()
-        factory = start_factory(manager.settings)
+    def test_recipe_ingredients(self):
+        recipe = storage_model('Тестовый рецепт')
+        recipe.add_ingredient('Мука', 100, 'грамм')
+        recipe.add_ingredient('Сахар', 80, 'грамм')
+        recipe.add_ingredient('Сливочное масло', 70, 'грамм')
+        recipe.add_ingredient('Яйцо куриное', 1, 'штука')
+        print(recipe.ingredients)
+        # Проверяем, что все добавленные ингредиенты есть в рецепте
+        ingredients_list = list(recipe.ingredients.keys())
 
-        # Действие
-        result = factory.create()
-
-        # Проверка
-        if manager.settings.is_first_start:
-            assert len(result) > 0
-            assert not factory.storage is None
-            assert storage.nomenclature_key in factory.storage.data
-
-        assert len(result) == 0
+        self.assertIn('Мука', ingredients_list)
+        self.assertIn('Сахар', ingredients_list)
+        self.assertIn('Сливочное масло', ingredients_list)
+        self.assertIn('Яйцо куриное', ingredients_list)

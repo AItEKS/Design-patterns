@@ -55,27 +55,27 @@ class unit_model(abstract_reference):
 
     @staticmethod
     def create_unit_gramm():
-        item = unit_model('gramm', None, 1)
+        item = unit_model('грамм', None, 1)
         return item
 
     @staticmethod
     def create_unit_kilogram():
         base = unit_model.create_unit_gramm()
-        item = unit_model('kilogramm', base, 1000)
+        item = unit_model('килограмм', base, 1000)
         return item
 
     @staticmethod
     def create_unit_millilitr():
-        item = unit_model('millilitr', None, 1)
+        item = unit_model('миллилитр', None, 1)
         return item
 
     @staticmethod
     def create_unit_litr():
         base = unit_model.create_unit_millilitr()
-        item = unit_model('litr', base, 1000)
+        item = unit_model('литр', base, 1000)
         return item
 
     @staticmethod
     def create_unit_shtuki():
-        item = unit_model('shtuka', None, 1)
+        item = unit_model('штука', None, 1)
         return item

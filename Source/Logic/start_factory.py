@@ -148,11 +148,13 @@ class start_factory:
         my_receipts = []
 
         recipe1 = storage_model('Вафли хрустящие в вафельнице')
-        recipe1.add_recipe('Мука', 100, 'gramm')
-        recipe1.add_recipe('Сахар', 80, 'gramm')
-        recipe1.add_recipe('Сливочное масло', 70, 'gramm')
-        recipe1.add_recipe('Яйцо куриное', 1, 'shtuka')
-        recipe1.add_recipe('Яйцо куриное', 1, 'shtuka')
+        recipe1.add_ingredient('Мука', 100, 'грамм')
+        recipe1.add_ingredient('Сахар', 80, 'грамм')
+        recipe1.add_ingredient('Сливочное масло', 70, 'грамм')
+        recipe1.add_ingredient('Яйцо куриное', 1, 'штука')
+        recipe1.add_ingredient('Яйцо куриное', 1, 'штука')
+
+        recipe1.add_recipe('Вафли хрустящие в вафельнице', list(recipe1.ingredients.keys()))
         my_receipts.append(recipe1)
 
         return my_receipts

@@ -9,11 +9,8 @@ import unittest
 
 #
 # Набор автотестов для проверки работы фабричного метода
-# #
+#
 class factory_test(unittest.TestCase):
-    #
-    # Проверка создания ед. измерения
-    #
     def test_check_factory(self):
         # Подготовка
         unit = unit_model.create_unit_kilogram()
@@ -23,9 +20,6 @@ class factory_test(unittest.TestCase):
         # Проверки
         assert unit is not None
 
-    #
-    # Проверка создание начальной номенклатуры
-    #
     def test_check_create_nomenclature(self):
         # Подготовка
         items = start_factory.create_nomenclature()
@@ -34,7 +28,6 @@ class factory_test(unittest.TestCase):
 
         # Прверки
         assert len(items) > 0
-
 
     def test_recipe_ingredients(self):
         recipe = storage_model('Тестовый рецепт')

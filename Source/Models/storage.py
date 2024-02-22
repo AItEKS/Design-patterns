@@ -8,7 +8,7 @@ class storage_model(abstract_reference):
         self.ingredients = {}
         self.recipes = {}
 
-    def add_ingredient(self, name, quantity, unit):
+    def add_ingredient(self, name: str, quantity: int, unit: str):
         if name in self.ingredients:
             self.ingredients[name] += (quantity, unit)
         else:

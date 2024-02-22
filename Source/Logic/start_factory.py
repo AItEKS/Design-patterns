@@ -141,6 +141,11 @@ class start_factory:
         item17.unit = unit_model.create_unit_kilogram()
         my_list.append(item17)
 
+        item17 = nomenclature_model('Горчица дижонская')
+        item17.group = group_model.create_group('Приправа')
+        item17.unit = unit_model.create_unit_kilogram()
+        my_list.append(item17)
+
         return my_list
 
     @staticmethod
@@ -152,10 +157,36 @@ class start_factory:
         recipe1.add_ingredient('Сахар', 80, 'грамм')
         recipe1.add_ingredient('Сливочное масло', 70, 'грамм')
         recipe1.add_ingredient('Яйцо куриное', 1, 'штука')
-        recipe1.add_ingredient('Яйцо куриное', 1, 'штука')
+        recipe1.add_ingredient('Ванилин', 5, 'грамм')
 
         recipe1.add_recipe('Вафли хрустящие в вафельнице', list(recipe1.ingredients.keys()))
         my_receipts.append(recipe1)
+
+        recipe2 = storage_model('Цезарь с курицей')
+        recipe2.add_ingredient('Куриное филе', 200, 'грамм')
+        recipe2.add_ingredient('Салат Романо', 50, 'грамм')
+        recipe2.add_ingredient('Сыр Пармезан', 50, 'грамм')
+        recipe2.add_ingredient('Чеснок', 10, 'грамм')
+        recipe2.add_ingredient('Белый хлеб', 30, 'грамм')
+        recipe2.add_ingredient('Соль', 5, 'грамм')
+        recipe2.add_ingredient('Черный перец', 2, 'грамм')
+        recipe2.add_ingredient('Оливковое масло', 10, 'миллилитр')
+        recipe2.add_ingredient('Лимонный сок', 5, 'миллилитр')
+        recipe2.add_ingredient('Горчица дижонская', 5, 'грамм')
+        recipe1.add_ingredient('Яйцо куриное', 2, 'штука')
+
+        recipe2.add_recipe('Цезарь с курицей', list(recipe2.ingredients.keys()))
+        my_receipts.append(recipe2)
+
+        recipe3 = storage_model('Рецепт безе')
+        recipe3.add_ingredient('Сахарная пудра', 180, 'грамм')
+        recipe3.add_ingredient('Корица', 5, 'грамм')
+        recipe3.add_ingredient('Какао', 20, 'грамм')
+        recipe3.add_ingredient('Яйцо куриное', 3, 'штука')
+        recipe3.add_ingredient('Ванилин', 5, 'грамм')
+
+        recipe3.add_recipe('Рецепт безе', list(recipe3.ingredients.keys()))
+        my_receipts.append(recipe3)
 
         return my_receipts
 

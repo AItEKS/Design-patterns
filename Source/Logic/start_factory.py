@@ -1,202 +1,151 @@
 from Source.Models.group import group_model
-from Source.Models.nomenclature import nomenclature_model
 from Source.Models.unit import unit_model
+from Source.Models.nomenclature import nomenclature_model
+from Source.abstract_reference import abstract_reference
+from Source.Models.receipe import receipe_model
+from Source.Models.receipe_row import receipe_row_model
+
 from Source.settings import settings
 from Source.Storage.storage import storage
-from Source.exceptions import exception_proxy
-from Source.Models.receipe import receipe_model
-from Source.Models.storage import storage_model
+from Source.exceptions import exception_proxy, operation_exception, argument_exception
 
 
 class start_factory:
     __options: settings = None
     __storage: storage = None
 
-    def __build(self):
-        if self.__storage is None:
-            self.__storage = storage()
-
-        self.__storage.data[storage.nomenclature_key()] = start_factory.create_nomenclature()
-        self.__storage.data[storage.group_key()] = start_factory.create_nomenclature()
-        self.__storage.data[storage.unit_key()] = start_factory.create_nomenclature()
-
     def __init__(self, __options: settings, __storage: storage = None) -> None:
+
         exception_proxy.validate(__options, settings)
         self.__options = __options
         self.__storage = __storage
 
-        self.__build()
-
     def __save(self, key: str, items: list):
-        """
-            Сохранить данные
-        Args:
-            key (str): ключ доступ
-            items (list): список
-        """
-
         exception_proxy.validate(key, str)
 
-        if self.__storage == None:
+        if self.__storage is None:
             self.__storage = storage()
 
         self.__storage.data[key] = items
 
-
     @property
     def storage(self):
-        """
-             Ссылка на объект хранилище данных
-        Returns:
-            _type_: _description_
-        """
         return self.__storage
 
     @staticmethod
-    def create_nomenclature():
-        my_list = []
+    def create_units():
+        items = []
+        items.append(unit_model.create_unit_gramm())
+        items.append(unit_model.create_unit_kilogram())
+        items.append(unit_model.create_unit_litr())
+        items.append(unit_model.create_unit_millilitr())
+        items.append(unit_model.create_unit_shtuki())
 
-        item1 = nomenclature_model('Мука')
-        item1.group = group_model.create_group('Пшеничная мука')
-        item1.unit = unit_model.create_unit_kilogram()
-        my_list.append(item1)
+        return items
 
-        item2 = nomenclature_model('Сахар')
-        item2.group = group_model.create_group('Приправа')
-        item2.unit = unit_model.create_unit_gramm()
-        my_list.append(item2)
+    @staticmethod
+    def create_nomenclatures():
+        group = group_model.create_default_group()
+        items = [{"Мука пшеничная": "киллограмм"},
+                 {"Сахар": "киллограмм"},
+                 {"Сливочное масло": "киллограмм"},
+                 {"Корица": "грамм"},
+                 {"Какао": "киллограмм"},
+                 {"Яйца": "штука"},
+                 {"Ванилин": "грамм"},
+                 {"Куриное филе": "киллограмм"},
+                 {"Салат Романо": "грамм"},
+                 {"Сыр Пармезан": "киллограмм"},
+                 {"Чеснок": "киллограмм"},
+                 {"Белый хлеб": "киллограмм"},
+                 {"Соль": "киллограмм"},
+                 {"Черный перец": "грамм"},
+                 {"Оливковое масло": "литр"},
+                 {"Лимонный сок": "литр"},
+                 {"Горчица дижонская": "грамм"},
+                 {"Сахарная пудра": "грамм"},
+                 {"Ванилиин": "грамм"}]
 
-        item3 = nomenclature_model('Сливочное масло')
-        item3.group = group_model.create_group('Масло')
-        item3.unit = unit_model.create_unit_kilogram()
-        my_list.append(item3)
+        units = abstract_reference.create_dictionary(start_factory.create_units())
 
-        item4 = nomenclature_model('Куриное филе')
-        item4.group = group_model.create_group('Мясо')
-        item4.unit = unit_model.create_unit_kilogram()
-        my_list.append(item4)
+        result = []
+        for position in items:
+            __list = list(position.items())
+            if len(__list) < 1:
+                raise operation_exception(
+                    "Невозможно сформировать элементы номенклатуры! Некорректный список исходных элементов!")
 
-        item5 = nomenclature_model('Салат Романно')
-        item5.group = group_model.create_group('Овощи')
-        item5.unit = unit_model.create_unit_gramm()
-        my_list.append(item5)
+            tuple = list(__list)[0]
 
-        item6 = nomenclature_model('Яйцо куриное')
-        item6.group = group_model.create_group('Яйцо')
-        item6.unit = unit_model.create_unit_shtuki()
-        my_list.append(item6)
+            if len(tuple) < 2:
+                raise operation_exception("Невозможно сформировать элемент номенклатуры. Длина кортежа не корректна!")
 
-        item7 = nomenclature_model('Чеснок')
-        item7.group = group_model.create_group('Овощи')
-        item7.unit = unit_model.create_unit_gramm()
-        my_list.append(item7)
+            name = tuple[0]
+            unit_name = tuple[1]
 
-        item8 = nomenclature_model('Сыр Пармезан')
-        item8.group = group_model.create_group('Сыр')
-        item8.unit = unit_model.create_unit_gramm()
-        my_list.append(item8)
+            item = nomenclature_model(name, group, units[unit_name])
+            result.append(item)
 
-        item9 = nomenclature_model('Оливковое масло')
-        item9.group = group_model.create_group('Масло')
-        item9.unit = unit_model.create_unit_litr()
-        my_list.append(item9)
+        return result
 
-        item10 = nomenclature_model('Белый хлеб')
-        item10.group = group_model.create_group('Выпечка')
-        item10.unit = unit_model.create_unit_kilogram()
-        my_list.append(item10)
-
-        item11 = nomenclature_model('Соль')
-        item11.group = group_model.create_group('Приправа')
-        item11.unit = unit_model.create_unit_kilogram()
-        my_list.append(item11)
-
-        item12 = nomenclature_model('Корица')
-        item12.group = group_model.create_group('Приправа')
-        item12.unit = unit_model.create_unit_gramm()
-        my_list.append(item12)
-
-        item13 = nomenclature_model('Какао')
-        item13.group = group_model.create_group('Приправа')
-        item13.unit = unit_model.create_unit_kilogram()
-        my_list.append(item13)
-
-        item14 = nomenclature_model('Сахарная пудра')
-        item14.group = group_model.create_group('Приправа')
-        item14.unit = unit_model.create_unit_kilogram()
-        my_list.append(item14)
-
-        item15 = nomenclature_model('Лимонный сок')
-        item15.group = group_model.create_group('Приправа')
-        item15.unit = unit_model.create_unit_millilitr()
-        my_list.append(item15)
-
-        item16 = nomenclature_model('Чёрный перец')
-        item16.group = group_model.create_group('Приправа')
-        item16.unit = unit_model.create_unit_kilogram()
-        my_list.append(item16)
-
-        item17 = nomenclature_model('Ванилин')
-        item17.group = group_model.create_group('Приправа')
-        item17.unit = unit_model.create_unit_kilogram()
-        my_list.append(item17)
-
-        item17 = nomenclature_model('Горчица дижонская')
-        item17.group = group_model.create_group('Приправа')
-        item17.unit = unit_model.create_unit_kilogram()
-        my_list.append(item17)
-
-        return my_list
+    @staticmethod
+    def create_groups():
+        items = []
+        items.append(group_model.create_default_group())
+        return items
 
     @staticmethod
     def create_receipts():
-        my_receipts = []
-
-        recipe1 = storage_model('Вафли хрустящие в вафельнице')
-        recipe1.add_ingredient('Мука', 100, 'грамм')
-        recipe1.add_ingredient('Сахар', 80, 'грамм')
-        recipe1.add_ingredient('Сливочное масло', 70, 'грамм')
-        recipe1.add_ingredient('Яйцо куриное', 1, 'штука')
-        recipe1.add_ingredient('Ванилин', 5, 'грамм')
-
-        recipe1.add_recipe('Вафли хрустящие в вафельнице', list(recipe1.ingredients.keys()))
-        my_receipts.append(recipe1)
-
-        recipe2 = storage_model('Цезарь с курицей')
-        recipe2.add_ingredient('Куриное филе', 200, 'грамм')
-        recipe2.add_ingredient('Салат Романо', 50, 'грамм')
-        recipe2.add_ingredient('Сыр Пармезан', 50, 'грамм')
-        recipe2.add_ingredient('Чеснок', 10, 'грамм')
-        recipe2.add_ingredient('Белый хлеб', 30, 'грамм')
-        recipe2.add_ingredient('Соль', 5, 'грамм')
-        recipe2.add_ingredient('Черный перец', 2, 'грамм')
-        recipe2.add_ingredient('Оливковое масло', 10, 'миллилитр')
-        recipe2.add_ingredient('Лимонный сок', 5, 'миллилитр')
-        recipe2.add_ingredient('Горчица дижонская', 5, 'грамм')
-        recipe1.add_ingredient('Яйцо куриное', 2, 'штука')
-
-        recipe2.add_recipe('Цезарь с курицей', list(recipe2.ingredients.keys()))
-        my_receipts.append(recipe2)
-
-        recipe3 = storage_model('Рецепт безе')
-        recipe3.add_ingredient('Сахарная пудра', 180, 'грамм')
-        recipe3.add_ingredient('Корица', 5, 'грамм')
-        recipe3.add_ingredient('Какао', 20, 'грамм')
-        recipe3.add_ingredient('Яйцо куриное', 3, 'штука')
-        recipe3.add_ingredient('Ванилин', 5, 'грамм')
-
-        recipe3.add_recipe('Рецепт безе', list(recipe3.ingredients.keys()))
-        my_receipts.append(recipe3)
-
-        return my_receipts
-
-    def create(self):
         result = []
-        if self.__options.is_first_start == True:
-            self.__options.is_first_start = False
+        data = start_factory.create_nomenclatures()
 
-            # Формируем и зпоминаем номеклатуру
-            result = start_factory.create_nomenclature()
-            self.__save(storage.nomenclature_key(), result)
+        # Вафли хрустящие в вафельнице
+        items = [{"Мука пшеничная": 100},
+                 {"Сахар": 80},
+                 {"Сливочное масло": 70},
+                 {"Яйца": 1},
+                 {"Ванилин": 5}]
+        result.append(receipe_model.create_receipt("Вафли хрустящие в вафельнице", "", items, data))
+
+        # Цезарь с курицей
+        items = [{"Куриное филе": 200},
+                 {"Салат Романо": 50},
+                 {"Сыр Пармезан": 50},
+                 {"Чеснок": 10},
+                 {"Белый хлеб": 30},
+                 {"Соль": 5},
+                 {"Черный перец": 2},
+                 {"Оливковое масло": 10},
+                 {"Лимонный сок": 5},
+                 {"Горчица дижонская": 5},
+                 {"Яйца": 2}]
+        result.append(receipe_model.create_receipt("Цезарь с курицей", "", items, data))
+
+        # Безе
+        items = [{"Яйца": 3},
+                 {"Сахарная пудра": 180},
+                 {"Ванилиин": 5},
+                 {"Корица": 5},
+                 {"Какао": 20}]
+        result.append(receipe_model.create_receipt("Безе", "", items, data))
 
         return result
+
+    def create(self) -> bool:
+        if self.__options.is_first_start:
+            self.__options.is_first_start = False
+
+            items = start_factory.create_nomenclatures()
+            self.__save(storage.nomenclature_key(), items)
+
+            items = start_factory.create_units()
+            self.__save(storage.unit_key(), items)
+
+            items = start_factory.create_groups()
+            self.__save(storage.group_key(), items)
+
+            items = start_factory.create_receipts()
+            self.__save(storage.receipt_key(), items)
+
+        else:
+            return True

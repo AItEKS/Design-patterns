@@ -1,24 +1,27 @@
 class storage:
-    __data = ()
-    __nomenclature = "nomenclature"
-    __group_key = "group_key"
-    __unit_key = "unit_key"
+    __data = {}
+
     def __new__(cls):
         if not hasattr(cls, 'instance'):
             cls.instance = super(storage, cls).__new__(cls)
         return cls.instance
 
+    @property
     def data(self) -> dict:
         return self.__data
 
     @staticmethod
     def nomenclature_key():
-        return "nomenclature"
+        return "nomenclatures"
 
     @staticmethod
     def group_key():
-        return "group"
+        return "groups"
 
     @staticmethod
     def unit_key():
-        return "unit"
+        return "units"
+
+    @staticmethod
+    def receipt_key():
+        return "receipts"

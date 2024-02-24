@@ -4,54 +4,50 @@ from Source.errors import error_proxy
 from Source.exceptions import exception_proxy
 
 
-#
-# Абстрактный класс для наследования
-#
 class abstract_reference(ABC):
-    " Readonly: Уникальный код "
-    _id = None
-    " Краткое наименование "
-    _name = ""
-    " Описание "
-    _description = ""
-    " Информация об ошибке "
-    _error = error_proxy()
+    __id = None
+    __name = ""
+    __description = ""
+    __error = error_proxy()
 
     def __init__(self, name):
-        _id = uuid.uuid4()
+        __id = uuid.uuid4()
         self.name = name
 
     @property
     def name(self):
-        "Краткое наименование"
-        return self._name
+        return self.__name
 
     @name.setter
     def name(self, value: str):
-        "Краткое наименование"
         exception_proxy.validate(value.strip(), str, 50)
-        self._name = value.strip()
+        self.__name = value.strip()
 
     @property
     def description(self):
-        " Полное наименование "
-        return self._description
+        return self.__description
 
     @description.setter
     def description(self, value: str):
-        " Полное наименование "
         exception_proxy.validate(value.strip(), str)
-        self._description = value.strip()
+        self.__description = value.strip()
 
     @property
     def id(self):
-        " Уникальный код записи "
-        return self._id
+        return self.__id
 
     @property
     def is_error(self):
-        " Флаг. Есть ошибка "
-        return self._error.error != ""
+        return self.__error.error != ""
+
+    @staticmethod
+    def create_dictionary(items: list):
+        exception_proxy.validate(items, list)
+        result = {}
+        for position in items:
+            result[position.name] = position
+
+        return result
 
 
 

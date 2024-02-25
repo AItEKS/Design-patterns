@@ -1,43 +1,37 @@
-from Source.error_proxy import error_proxy
+from Source.errors import error_proxy
 import unittest
-from Source.operation_exception import operation_exception
-from Source.argument_exception import argument_exception
 
-class test_errors(unittest.TestCase):
-    def test_check_argument_exception(self):
+
+#
+# Набор автотестов для проверки работы класса error_proxy
+#
+class error_proxy_test(unittest.TestCase):
+
+    #
+    # Проверить простой сбособ  создания объекта с ошибкой
+    #
+    def test_create_error_proxy(self):
         # Подготовка
+        proxy = error_proxy()
 
         # Действие
-        try:
-            raise argument_exception("Test")
-        except argument_exception as ex:
-            # Проверка
-            print(ex.error.error_text)
-            print(ex.error.error_source)
+        proxy.error = "test"
 
-            assert ex.error.is_error
-            return
+        # Проверка
+        assert proxy.error == "test"
 
-        assert 1 != 1
-
-    def test_check_set_exception(self):
+    def test_create_exception_error_proxy(self):
         # Подготовка
-        error = error_proxy()
+        proxy = error_proxy()
 
-        # Действие
         try:
-            result = 1 / 0
+            # Действие
+            proxy.error = ""
         except Exception as ex:
-            error.set_error(ex)
+            proxy.set_error(ex)
 
-        # Проверки
-        assert error.is_error == True
+        # Проверка
+        print(proxy.error)
+        assert proxy.error != ""
 
-    def test_check_set_error_text(self):
-        # Подготовка
-        error = error_proxy("Test", "Test")
 
-        # Действие
-
-        # Проверки
-        assert error.is_error == True

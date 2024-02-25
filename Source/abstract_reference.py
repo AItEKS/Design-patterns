@@ -1,55 +1,58 @@
 import uuid
 from abc import ABC
-from Source.error_proxy import error_proxy
-from Source.argument_exception import argument_exception
+from Source.errors import error_proxy
+from Source.exceptions import exception_proxy
 
 
 class abstract_reference(ABC):
-    __id: uuid.UUID
-    __name: str = ""
-    __error: error_proxy = error_proxy()
+    __id = None
+    __name = ""
+    __description = ""
+    __error = error_proxy()
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self, name):
+        __id = uuid.uuid4()
         self.name = name
-        self.__id = uuid.uuid4()
-
-    @property
-    def error(self):
-        """
-           Работа с ошибками
-
-        Returns:
-            _type_: _description_
-        """
-        return self.__error
-
-    @property
-    def id(self):
-        """
-            Уникальный код
-        Returns:
-            _type_: _description_
-        """
-        return self.__id
 
     @property
     def name(self):
-        """
-           Наименование
-        Returns:
-            _type_: _description_
-        """
-        return self.__name.strip()
+        return self.__name
 
     @name.setter
     def name(self, value: str):
-        if not isinstance(value, str):
-            raise argument_exception("Неверный аргумент!")
-
-        if len(value.strip()) > 50:
-            raise argument_exception("Превышена максимальная длина наименования!")
-
-        if value == "":
-            raise argument_exception("Некорректное значение наименование!")
-
+        exception_proxy.validate(value.strip(), str, 50)
         self.__name = value.strip()
+
+    @property
+    def description(self):
+        return self.__description
+
+    @description.setter
+    def description(self, value: str):
+        exception_proxy.validate(value.strip(), str)
+        self.__description = value.strip()
+
+    @property
+    def id(self):
+        return self.__id
+
+    @property
+    def is_error(self):
+        return self.__error.error != ""
+
+    @staticmethod
+    def create_dictionary(items: list):
+        exception_proxy.validate(items, list)
+        result = {}
+        for position in items:
+            result[position.name] = position
+
+        return result
+
+
+
+
+
+
+
+

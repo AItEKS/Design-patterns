@@ -4,5 +4,6 @@
     "account": "12345678901",
     "correspondent_account": "98765432109",
     "bik": "987654321",
-    "ownership_type": "ABCDE"
+    "ownership_type": "ABCDE",
+    "is_first_start": false
 }

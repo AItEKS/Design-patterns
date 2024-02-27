@@ -36,8 +36,8 @@ class settings_test(unittest.TestCase):
 
         # Проверки
         print(manager1.__uniqueNumber)
-        print(manager2.__uniqueNumber)
-        assert manager1.__uniqueNumber == manager2.__uniqueNumber
+        print(manager2._uniqueNumber)
+        assert manager1._uniqueNumber == manager2._uniqueNumber
 
     #
     # Проверить работу менеджера загрузки настроек при не корректном файле настроек

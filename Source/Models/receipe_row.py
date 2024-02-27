@@ -4,9 +4,7 @@ from Source.Models.unit import unit_model
 from Source.exceptions import exception_proxy
 
 
-#
 # Класс описание строки рецепта
-#
 class receipe_row_model(abstract_reference):
     __nomenclature: nomenclature_model = None
     __size: int = 0

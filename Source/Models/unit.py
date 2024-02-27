@@ -48,7 +48,7 @@ class unit_model(abstract_reference):
     def coefficient(self, value: int):
         exception_proxy.validate(value, int)
 
-        if (value <= 0):
+        if value <= 0:
             raise argument_exception("Значение коэффициента должно быть > 1!")
 
         self.__coefficient = value

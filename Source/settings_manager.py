@@ -29,14 +29,10 @@ class settings_manager(object):
             self.__uniqueNumber = uuid.uuid4()
             self.open(self.__settings_file_name)
 
-            # После загрузки создаем объект класса settings
             self.__settings = settings()
             self.__load()
 
     def __open(self):
-        """
-            Открыть файл с настройками
-        """
         file_path = os.path.split(__file__)
         settings_file = "%s/%s" % (file_path[0], self.__settings_file_name)
         if not os.path.exists(settings_file):
@@ -49,14 +45,9 @@ class settings_manager(object):
             self.__error.set_error(Exception("ERROR: Невозможно загрузить настройки! Не найден файл %s", settings_file))
 
     def open(self, file_name: str):
-        """
-            Открыть файл с настройками
-        Args:
-            file_name (str):
-        """
         exception_proxy.validate(file_name, str)
 
-        self._settings_file_name = file_name
+        self.__settings_file_name = file_name
         self.__open()
         self.__load()
 
@@ -69,7 +60,7 @@ class settings_manager(object):
             return
 
         # Список полей от типа назначения
-        fields = list(filter(lambda x: not x.startswith("_"), dir(self.__settings.__class__)))
+        fields = list(filter(lambda x: not x.startswith("__"), dir(self.__settings.__class__)))
 
         # Заполняем свойства
         for field in fields:
@@ -77,33 +68,17 @@ class settings_manager(object):
             if len(keys) != 0:
                 value = self.__data[field]
 
-                # Если обычное свойство - заполняем.
                 if not isinstance(value, list) and not isinstance(value, dict):
                     setattr(self.__settings, field, value)
 
     @property
     def settings(self) -> settings:
-        """
-            Текущие настройки в приложении
-        Returns:
-            settings: _
-        """
         return self.__settings
 
     @property
     def data(self):
-        """
-            Словарь, который содержит данные из настроек
-        Returns:
-            dict:
-        """
         return self.__data
 
     @property
     def error(self) -> error_proxy:
-        """
-            Текущая информация об ошибке
-        Returns:
-            error_proxy:
-        """
         return self.__error

@@ -1,11 +1,7 @@
 from Source.errors import error_proxy
 
 
-# Набор классов для генерации собственных исключений
-
-#
 # Абстрактный класс для наследования
-#
 class exception_proxy(Exception):
     __error: error_proxy = error_proxy()
 
@@ -15,31 +11,10 @@ class exception_proxy(Exception):
 
     @property
     def error(self):
-        """
-            Информация об ошибке
-        Returns:
-            _type_: _description_
-        """
         return self.__error
-
-        # -> Источник: https://github.com/zhbr112/Restaurant-automation/blob/b2db73872c4c126155ad52b82db79223943aca29/src/abstract_reference.py#L16
 
     @staticmethod
     def validate(value, type_, len_=None):
-        """
-            Валидация аргумента по типу и длине
-        Args:
-            value (any): Аргумент
-            type_ (object): Ожидаемый тип
-            len_ (int): Максимальная длина
-        Raises:
-            arguent_exception: Некорректный тип
-            arguent_exception: Неулевая длина
-            arguent_exception: Некорректная длина аргумента
-        Returns:
-            True или Exception
-        """
-
         # Проверка типа
         if not isinstance(value, type_):
             raise argument_exception("Некорректный тип")
@@ -54,15 +29,11 @@ class exception_proxy(Exception):
         return True
 
 
-#
 # Исключение при проверки аргументов
-#
 class argument_exception(exception_proxy):
     pass
 
 
-#
 # Исключение при выполнении операции
-#
 class operation_exception(argument_exception):
     pass

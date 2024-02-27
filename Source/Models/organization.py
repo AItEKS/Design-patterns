@@ -14,7 +14,7 @@ class organization_model(abstract_reference):
     __ownership_type = ""
 
     def __init(self, name):
-        super().init(name)
+        super().__init__(name)
         self.__settings = settings()
 
     def set_settings(self, settings):

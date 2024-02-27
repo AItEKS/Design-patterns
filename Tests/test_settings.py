@@ -22,7 +22,7 @@ class settings_test(unittest.TestCase):
         print(type(manager.data))
         assert result is not None
         assert manager.settings.inn > 0
-        assert manager.settings.short_name != ""
+        assert manager.settings.name != ""
 
     #
     # Проверить тип создания объекта как singletone
@@ -47,7 +47,7 @@ class settings_test(unittest.TestCase):
         manager = settings_manager()
 
         # Действие
-        manager.open("test.json")
+        manager.open("Source.settings.json")
 
         # Проверки
         assert manager.error.is_empty == False

@@ -70,7 +70,6 @@ class receipe_model(abstract_reference):
             else:
                 unit = nomenclature.unit.base_unit
 
-                # Создаем запись в рецепте
             row = receipe_row_model(nomenclature, size, unit)
             receipt.add(row)
 

@@ -22,7 +22,7 @@ class settings_test(unittest.TestCase):
         print(type(manager.data))
         assert result is not None
         assert manager.settings.inn > 0
-        assert manager.settings.name != ""
+        assert manager.settings.short_name != ""
 
     #
     # Проверить тип создания объекта как singletone
@@ -36,8 +36,8 @@ class settings_test(unittest.TestCase):
 
         # Проверки
         print(manager1.__uniqueNumber)
-        print(manager2.__uniqueNumber)
-        assert manager1.__uniqueNumber == manager2.__uniqueNumber
+        print(manager2._uniqueNumber)
+        assert manager1._uniqueNumber == manager2._uniqueNumber
 
     #
     # Проверить работу менеджера загрузки настроек при не корректном файле настроек
@@ -47,7 +47,7 @@ class settings_test(unittest.TestCase):
         manager = settings_manager()
 
         # Действие
-        manager.open("Source.settings.json")
+        manager.open("test.json")
 
         # Проверки
         assert manager.error.is_empty == False

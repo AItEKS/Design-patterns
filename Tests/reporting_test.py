@@ -1,11 +1,11 @@
 import unittest
-from Source.Logic.reporting_csv import reporting
+from Source.Logic.reporting_csv import reporting_csv
 from Source.Models.nomenclature import nomenclature_model
 
 
 class test_reporting(unittest.TestCase):
     def test_generate_csv_string(self):
-        report_generator = reporting()
+        report_generator = reporting_csv()
         # Создаем тестовые данные
         test_data = [
             nomenclature_model("Test Nomenclature 1", group=None, unit=None),

@@ -1,5 +1,5 @@
 import unittest
-from Source.Logic.reporting import reporting
+from Source.Logic.reporting_csv import reporting
 from Source.Models.nomenclature import nomenclature_model
 
 

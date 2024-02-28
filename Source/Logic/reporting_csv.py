@@ -1,4 +1,3 @@
-from collections import defaultdict
 from typing import Dict, List
 
 from Source.Logic.reporting import reporting
@@ -17,7 +16,7 @@ class reporting_csv(reporting):
             models = self.storage.data.get(key, [])
             fields = self.get_classes_fields(models)
 
-            csv_string = self.generate_csv_string(models, fields[key.split("_")[1]])
+            csv_string = self.generate_csv_string(models, fields[key.split('_')[1]])
             return csv_string
         else:
             raise ValueError("Invalid key provided")

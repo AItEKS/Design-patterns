@@ -25,3 +25,15 @@ class storage:
     @staticmethod
     def receipt_key():
         return "receipts"
+
+    @staticmethod
+    def unit_key():
+        return "unit_key"
+
+    @staticmethod
+    def group_key():
+        return "group_key"
+
+    @staticmethod
+    def nomenclature_key():
+        return "nomenclature_key"

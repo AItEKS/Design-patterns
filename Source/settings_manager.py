@@ -18,6 +18,8 @@ class settings_manager(object):
     __settings = None
     # Описание ошибок
     __error = error_proxy()
+    # Поля класса
+    __fields = None
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -52,18 +54,14 @@ class settings_manager(object):
         self.__load()
 
     def __load(self):
-        """
-            Private: Загрузить словарь в объект
-        """
-
         if len(self.__data) == 0:
             return
 
         # Список полей от типа назначения
-        fields = list(filter(lambda x: not x.startswith("__"), dir(self.__settings.__class__)))
+        self.__fields = list(filter(lambda x: not x.startswith("__"), dir(self.__settings.__class__)))
 
         # Заполняем свойства
-        for field in fields:
+        for field in self.__fields:
             keys = list(filter(lambda x: x == field, self.__data.keys()))
             if len(keys) != 0:
                 value = self.__data[field]

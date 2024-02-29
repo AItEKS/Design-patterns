@@ -1,5 +1,6 @@
 class settings:
     def __init__(self):
+        self.__report_format = None
         self.__name = ""
         self.__inn = ""
         self.__account = ""
@@ -76,11 +77,21 @@ class settings:
 
     @property
     def is_first_start(self):
-        """
-           Флаг Первый старт
-        """
-        return self._first_start
+        return self.__first_start
 
     @is_first_start.setter
     def is_first_start(self, value: bool):
-        self._first_start = value
+        self.__first_start = value
+
+    @property
+    def report_format(self):
+        return self.__report_format
+
+    @report_format.setter
+    def report_format(self, value: str):
+        valid_formats = ['CSV', 'Markdown', 'Json']
+
+        if value not in valid_formats:
+            raise Exception("Некорректный формат отчета!")
+
+        self.__report_format = value

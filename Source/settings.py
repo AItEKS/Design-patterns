@@ -1,3 +1,5 @@
+from Source.exceptions import exception_proxy
+
 class settings:
     def __init__(self):
         self.__report_format = None
@@ -8,6 +10,7 @@ class settings:
         self.__bik = ""
         self.__ownership_type = ""
         self.__first_start = True
+        self.__mode = "csv"
 
     @property
     def name(self):
@@ -84,14 +87,11 @@ class settings:
         self.__first_start = value
 
     @property
-    def report_format(self):
-        return self.__report_format
+    def report_mode(self):
+        return self.__mode
 
-    @report_format.setter
-    def report_format(self, value: str):
-        valid_formats = ['CSV', 'Markdown', 'Json']
+    @report_mode.setter
+    def report_mode(self, value: str):
+        exception_proxy.validate(value, str)
 
-        if value not in valid_formats:
-            raise Exception("Некорректный формат отчета!")
-
-        self.__report_format = value
+        self.__mode = value

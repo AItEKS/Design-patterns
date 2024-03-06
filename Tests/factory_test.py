@@ -6,10 +6,7 @@ from Source.Storage.storage import storage
 import unittest
 
 
-# Набор автотестов для проверки работы фабричного метода
 class factory_test(unittest.TestCase):
-
-    # Проверка создания начальных рецептов
     def test_check_create_receipts(self):
         # Подготовка
         items = start_factory.create_receipts()
@@ -19,7 +16,6 @@ class factory_test(unittest.TestCase):
         # Проверки
         assert len(items) > 0
 
-    # Проверка создание начальной номенклатуры
     def test_check_create_nomenclatures(self):
         # Подготовка
         items = start_factory.create_nomenclatures()
@@ -29,7 +25,6 @@ class factory_test(unittest.TestCase):
         # Прверки
         assert len(items) > 0
 
-    # Проверка создание списка единиц измерения
     def test_check_create_units(self):
         # Подготовка
         items = start_factory.create_units()
@@ -39,7 +34,6 @@ class factory_test(unittest.TestCase):
         # Проверки
         assert len(items) > 0
 
-    # Проверка создания списка групп
     def test_check_create_groups(self):
         # Подготовка
         items = start_factory.create_groups()
@@ -49,7 +43,6 @@ class factory_test(unittest.TestCase):
         # Проверки
         assert len(items) > 0
 
-    # Проверка работы класса start_factory. Метод create
     def test_check_factory_create(self):
         # Подготовка
         manager = settings_manager()

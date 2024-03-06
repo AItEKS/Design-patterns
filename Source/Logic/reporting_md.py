@@ -1,53 +1,39 @@
-import json
-from typing import Dict, List
-
 from Source.Logic.reporting import reporting
-from Source.settings import settings
-from Source.Storage.storage import storage
-from io import StringIO
+from Source.exceptions import operation_exception
 
 
 class reporting_md(reporting):
-    def __init__(self):
-        self.settings = settings()
-        self.storage = storage()
 
-    def create(self, key: str) -> str:
-        if key in [self.storage.nomenclature_key(), self.storage.group_key(), self.storage.unit_key()]:
-            models = self.storage.data.get(key, [])
-            fields = self.get_classes_fields(models)
+    def create(self, typeKey: str):
+        super().create(typeKey)
+        result = []
 
-            md_string = self.generate_md_string(models, fields[key.split('_')[1]])
-            return md_string
-        else:
-            raise ValueError("Invalid key provided")
+        items = self.data[typeKey]
+        if items == None:
+            raise operation_exception("Невозможно сформировать данные. Данные не заполнены!")
 
-    def generate_md_string(self, models: List, model_fields: List) -> str:
-        if not models:
-            return ""
+        if len(items) == 0:
+            raise operation_exception("Невозможно сформировать данные. Нет данных!")
 
-        output = StringIO()
-        output.write('|')
+        result.append(f"# {typeKey}")
 
-        for field in model_fields:
-            output.write('|' + field + '|')
+        header = ""
+        line = ""
+        for field in self.fields:
+            header += f"|{field}"
+            line += "|--"
 
-        output.write('|\n')
+        result.append(f"{header}|")
+        result.append(f"{line}|")
 
-        for model in models:
-            output.write('|')
+        for item in items:
+            row = ""
+            for field in self.fields:
+                value = getattr(item, field)
+                if value is None:
+                    value = ""
 
-            for field in model_fields:
-                attribute = "_".join((model.__class__.__name__, field)).replace("-", "_").capitalize()
-                try:
-                    value = getattr(model, attribute)
-                    output.write('|' + str(value) + '|')
-                except AttributeError:
-                    output.write('|' + '-' + '|')
+                row += f"|{value}"
+            result.append(f"{row}|")
 
-            output.write('|\n')
-
-        md_string = output.getvalue()
-        output.close()
-
-        return md_string
+        return "\n".join(result)

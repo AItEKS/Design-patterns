@@ -1,49 +1,27 @@
-import json
-from typing import Dict, List
-
 from Source.Logic.reporting import reporting
-from Source.settings import settings
-from Source.Storage.storage import storage
-from io import StringIO
+from Source.exceptions import operation_exception
+import json
 
 
 class reporting_json(reporting):
-    def __init__(self):
-        self.settings = settings()
-        self.storage = storage()
+    def create(self, typeKey: str):
+        super().create(typeKey)
+        result = []
 
-    def create(self, key: str) -> str:
-        if key in [self.storage.nomenclature_key(), self.storage.group_key(), self.storage.unit_key()]:
-            models = self.storage.data.get(key, [])
-            fields = self.get_classes_fields(models)
+        items = self.data[typeKey]
+        if items is None:
+            raise operation_exception("Невозможно сформировать данные. Данные не заполнены!")
 
-            json_string = self.generate_json_string(models, fields[key.split('_')[1]])
-            return json_string
-        else:
-            raise ValueError("Invalid key provided")
+        if len(items) == 0:
+            raise operation_exception("Невозможно сформировать данные. Нет данных!")
 
-    def generate_json_string(self, models: List, model_fields: List) -> str:
-        if not models:
-            return ""
+        data = {}
+        for item in items:
+            for field in self.fields:
+                value = getattr(item, field)
+                data[field] = value
 
-        output = StringIO()
-        output.write('[')
+            result.append(data)
 
-        for model in models:
-            json_object = {}
-            for field in model_fields:
-                attribute = "_".join((model.__class__.__name__, field)).replace("-", "_").capitalize()
-                try:
-                    value = getattr(model, attribute)
-                    json_object[field] = value
-                except AttributeError:
-                    continue
-            json_string = json.dumps(json_object, ensure_ascii=False)
-            output.write(json_string + ',')
-
-        output.write(']')
-
-        json_string = output.getvalue()
-        output.close()
-
-        return json_string
+        data = json.dumps(result)
+        return data

@@ -49,7 +49,8 @@ class abstract_reference(ABC):
 
         return result
 
-
+    def __str__(self) -> str:
+        return self.id
 
 
 

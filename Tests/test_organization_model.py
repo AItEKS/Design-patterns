@@ -6,9 +6,7 @@ from Source.exceptions import argument_exception
 import unittest
 
 
-# Набор автотестов для проверки работы моделей связанных с номенклатурой
 class nomenclature_test(unittest.TestCase):
-    # Проверить создание новой карточки номенклатуры
     def test_create_nomenclatures(self):
         # Подготовка
         group = group_model("test group")
@@ -23,7 +21,6 @@ class nomenclature_test(unittest.TestCase):
         # Проверка
         assert item is not None
 
-    # Проверить создание новой карточки номенклатуры с ошибкой
     def test_create_nomenclature_fail_name(self):
         # Подготовка
         group = group_model("test group")

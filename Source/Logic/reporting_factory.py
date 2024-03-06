@@ -1,37 +1,31 @@
-from typing import Dict, List
-
-from Source.Logic.reporting_csv import reporting_csv
-from Source.settings import settings
-from Source.Storage.storage import storage
-from Source.Logic.reporting_json import reporting_json
+from Source.Logic.reporting import reporting
 from Source.Logic.reporting_md import reporting_md
+from Source.Logic.reporting_csv import reporting_csv
+from Source.Logic.reporting_json import reporting_json
+from Source.exceptions import exception_proxy, argument_exception, operation_exception
 
 
-class reporting_factory:
-    def __init__(self):
-        self.settings = settings()
-        self.storage = storage()
+class report_factory:
+    __maps = {}
 
-    def create(self, key: str, format: str) -> str:
-        if key in [self.storage.nomenclature_key(), self.storage.group_key(), self.storage.unit_key()]:
-            models = self.storage.data.get(key, [])
-            fields = self.get_classes_fields(models)
+    def __init__(self) -> None:
+        self.__build_structure()
 
-            if format == "json":
-                return reporting_json().create(key)
-            elif format == "csv":
-                return reporting_csv().create(key)
-            elif format == "md":
-                return reporting_md().create(key)
-            else:
-                raise ValueError("Invalid format provided")
-        else:
-            raise ValueError("Invalid key provided")
+    def __build_structure(self):
+        self.__maps["csv"] = reporting_csv
+        self.__maps["markdown"] = reporting_md
+        self.__maps["json"] = reporting_json
 
-    def get_classes_fields(self, models: List) -> List:
-        fields = []
-        for model in models:
-            for field in model.__dict__:
-                if field.startswith("_"):
-                    fields.append(field)
-        return fields
+    def create(self, format: str, data: dict) -> reporting:
+        exception_proxy.validate(format, str)
+        exception_proxy.validate(data, dict)
+
+        if len(data) == 0:
+            raise argument_exception("Пустые данные")
+
+        if format not in self.__maps.keys():
+            raise operation_exception(f"Для {format} нет обработчика")
+
+        report_type = self.__maps[format]
+        result = report_type(data)
+        return result

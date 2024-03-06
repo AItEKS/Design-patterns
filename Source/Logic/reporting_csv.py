@@ -1,47 +1,33 @@
-from typing import Dict, List
-
 from Source.Logic.reporting import reporting
-from Source.settings import settings
-from Source.Storage.storage import storage
-from io import StringIO
+from Source.exceptions import operation_exception
 
 
 class reporting_csv(reporting):
-    def __init__(self):
-        self.settings = settings()
-        self.storage = storage()
 
-    def create(self, key: str) -> str:
-        if key in [self.storage.nomenclature_key(), self.storage.group_key(), self.storage.unit_key()]:
-            models = self.storage.data.get(key, [])
-            fields = self.get_classes_fields(models)
+    def create(self, typeKey: str):
+        super().create(typeKey)
+        result = ""
+        delimetr = ";"
 
-            csv_string = self.generate_csv_string(models, fields[key.split('_')[1]])
-            return csv_string
-        else:
-            raise ValueError("Invalid key provided")
+        items = self.data[typeKey]
+        if items == None:
+            raise operation_exception("Невозможно сформировать данные. Данные не заполнены!")
 
-    def generate_csv_string(self, models: List, model_fields: List) -> str:
-        if not models:
-            return ""
+        if len(items) == 0:
+            raise operation_exception("Невозможно сформировать данные. Нет данных!")
 
-        output = StringIO()
-        headers = ";".join(model_fields) + "\n"
-        output.write(headers)
+        header = delimetr.join(self.fields)
+        result += f"{header}\n"
 
-        for model in models:
-            values = []
-            for field in model_fields:
-                attribute = "_".join((model.__class__.__name__, field)).replace("-", "_").capitalize()
-                try:
-                    value = getattr(model, attribute)
-                    values.append(str(value or ""))
-                except AttributeError:
-                    continue
-            row_values = ";".join(values) + "\n"
-            output.write(row_values)
+        for item in items:
+            row = ""
+            for field in self.fields:
+                value = getattr(item, field)
+                if value is None:
+                    value = ""
 
-        csv_string = output.getvalue()
-        output.close()
+                row += f"{value}{delimetr}"
 
-        return csv_string
+            result += f"{row[:-1]}\n"
+
+        return result

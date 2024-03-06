@@ -1,7 +1,6 @@
 from Source.errors import error_proxy
 
 
-# Абстрактный класс для наследования
 class exception_proxy(Exception):
     __error: error_proxy = error_proxy()
 
@@ -15,11 +14,9 @@ class exception_proxy(Exception):
 
     @staticmethod
     def validate(value, type_, len_=None):
-        # Проверка типа
         if not isinstance(value, type_):
             raise argument_exception("Некорректный тип")
 
-        # Проверка аргумента
         if len(str(value).strip()) == 0:
             raise argument_exception("Пустой аргумент")
 
@@ -29,11 +26,9 @@ class exception_proxy(Exception):
         return True
 
 
-# Исключение при проверки аргументов
 class argument_exception(exception_proxy):
     pass
 
 
-# Исключение при выполнении операции
 class operation_exception(argument_exception):
     pass

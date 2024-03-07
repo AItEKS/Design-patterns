@@ -1,4 +1,5 @@
-from convertor import convertor
+from Source.Logic.convertor import convertor
+from Source.exceptions import argument_exception
 
 
 class basic_convertor(convertor):
@@ -6,4 +7,4 @@ class basic_convertor(convertor):
         if isinstance(obj, (int, float, str)):
             return {"value": obj}
         else:
-            raise ValueError("Unsupported data type for basic conversion")
+            raise argument_exception("Ошибка типа данных!")

@@ -1,6 +1,7 @@
 from Source.Logic.reporting import reporting
 from Source.exceptions import operation_exception
 import json
+from Source.Logic.convert_factory import convert_factory
 
 
 class reporting_json(reporting):
@@ -15,13 +16,16 @@ class reporting_json(reporting):
         if len(items) == 0:
             raise operation_exception("Невозможно сформировать данные. Нет данных!")
 
-        data = {}
+        converter = convert_factory()
+
         for item in items:
+            converted_item = {}
             for field in self.fields:
                 value = getattr(item, field)
-                data[field] = value
+                converted_value = converter.convert_object(value)
+                converted_item[field] = converted_value
 
-            result.append(data)
+            result.append(converted_item)
 
         data = json.dumps(result)
         return data

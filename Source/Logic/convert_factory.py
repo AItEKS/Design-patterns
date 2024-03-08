@@ -1,9 +1,9 @@
 import datetime
-from Source.Logic.reference_convertor import reference_convertor
 from Source.Logic.basic_convertor import basic_convertor
 from Source.Logic.datetime_convertor import datetime_convertor
-from Source.abstract_reference import abstract_reference
+from Source.Logic.reference_convertor import reference_convertor
 from Source.exceptions import argument_exception
+from Source.Models.unit import unit_model
 
 
 class convert_factory:
@@ -13,12 +13,22 @@ class convert_factory:
             float: basic_convertor(),
             str: basic_convertor(),
             datetime.datetime: datetime_convertor(),
-            abstract_reference: reference_convertor()
+            dict: reference_convertor(),
+            unit_model: reference_convertor()
         }
 
     def convert_object(self, obj):
         if type(obj) in self.converters:
             converter = self.converters[type(obj)]
             return converter.convert(obj)
+        elif isinstance(obj, dict):
+            converted_dict = {}
+            for key, value in obj.items():
+                converted_dict[key] = self.convert_object(value)
+            return converted_dict
+        elif isinstance(obj, unit_model):
+            converter = self.converters[unit_model]
+            return converter.convert(obj)
         else:
             raise argument_exception("Ошибка типа данных!")
+

@@ -2,14 +2,8 @@ from Source.abstract_reference import abstract_reference
 from Source.exceptions import exception_proxy, argument_exception
 
 
-#
-# Модель единицы измерения для номенклатуры
-#
 class unit_model(abstract_reference):
-    # Базовая единица измерения
     __base_unit: abstract_reference = None
-
-    # Коэффициент пересчета к базовой единице измерения
     __coefficient: int = 1
 
     def __init__(self, name: str, base_unit: abstract_reference = None, coefficient: int = 1):
@@ -23,11 +17,6 @@ class unit_model(abstract_reference):
 
     @property
     def base_unit(self):
-        """
-            Базовая единица измерения
-        Returns:
-            _type_: _description_
-        """
         return self.__base_unit
 
     @base_unit.setter
@@ -37,11 +26,6 @@ class unit_model(abstract_reference):
 
     @property
     def coefficient(self):
-        """
-            Коэффициент пересчета
-        Returns:
-            _type_: _description_
-        """
         return self.__coefficient
 
     @coefficient.setter

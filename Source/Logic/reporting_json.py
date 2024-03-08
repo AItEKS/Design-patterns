@@ -9,11 +9,11 @@ class reporting_json(reporting):
         super().create(typeKey)
         result = []
 
-        items = self.data[typeKey]
+        items = self.data.get(typeKey)
         if items is None:
             raise operation_exception("Невозможно сформировать данные. Данные не заполнены!")
 
-        if len(items) == 0:
+        if not items:
             raise operation_exception("Невозможно сформировать данные. Нет данных!")
 
         converter = convert_factory()

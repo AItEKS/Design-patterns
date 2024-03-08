@@ -1,5 +1,4 @@
 from Source.abstract_reference import abstract_reference
-from Source.exceptions import exception_proxy, argument_exception
 
 
 class unit_model(abstract_reference):
@@ -9,7 +8,7 @@ class unit_model(abstract_reference):
     def __init__(self, name: str, base_unit: abstract_reference = None, coefficient: int = 1):
         super().__init__(name)
 
-        if base_unit != None:
+        if base_unit is not None:
             self.__base_unit = base_unit
 
         if coefficient != 1:
@@ -20,9 +19,9 @@ class unit_model(abstract_reference):
         return self.__base_unit
 
     @base_unit.setter
-    def base(self, value: abstract_reference):
-        exception_proxy.validate(value, abstract_reference)
-        self.__base_unit = value
+    def base_unit(self, value: abstract_reference):
+        if value is not None:
+            self.__base_unit = value
 
     @property
     def coefficient(self):
@@ -30,11 +29,8 @@ class unit_model(abstract_reference):
 
     @coefficient.setter
     def coefficient(self, value: int):
-        exception_proxy.validate(value, int)
-
         if value <= 0:
-            raise argument_exception("Значение коэффициента должно быть > 1!")
-
+            raise ValueError("Значение коэффициента должно быть > 1!")
         self.__coefficient = value
 
     @staticmethod

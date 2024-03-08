@@ -18,17 +18,14 @@ class convert_factory:
         }
 
     def convert_object(self, obj):
-        if type(obj) in self.converters:
-            converter = self.converters[type(obj)]
+        obj_type = type(obj)
+        if obj_type in self.converters:
+            converter = self.converters[obj_type]
             return converter.convert(obj)
-        elif isinstance(obj, dict):
+        elif obj_type == dict:
             converted_dict = {}
             for key, value in obj.items():
                 converted_dict[key] = self.convert_object(value)
             return converted_dict
-        elif isinstance(obj, unit_model):
-            converter = self.converters[unit_model]
-            return converter.convert(obj)
         else:
             raise argument_exception("Ошибка типа данных!")
-

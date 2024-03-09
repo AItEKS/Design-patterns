@@ -6,8 +6,8 @@ class reference_convertor(convertor):
         if isinstance(obj, dict):
             result = {}
             for key, value in obj.items():
-                if isinstance(value, convertor):
-                    result[key] = value.convert(value)
+                if isinstance(value, dict):
+                    result[key] = self.convert(value)
                 else:
                     result[key] = value
             return result

@@ -3,7 +3,6 @@ from Source.Logic.basic_convertor import basic_convertor
 from Source.Logic.datetime_convertor import datetime_convertor
 from Source.Logic.reference_convertor import reference_convertor
 from Source.exceptions import argument_exception
-from Source.Models.unit import unit_model
 
 
 class convert_factory:
@@ -13,8 +12,7 @@ class convert_factory:
             float: basic_convertor(),
             str: basic_convertor(),
             datetime.datetime: datetime_convertor(),
-            dict: reference_convertor(),
-            unit_model: reference_convertor()
+            dict: reference_convertor()
         }
 
     def convert_object(self, obj):

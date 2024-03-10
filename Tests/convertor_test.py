@@ -1,27 +1,44 @@
 import unittest
 from Source.Logic.convert_factory import convert_factory
-from Source.Models.unit import unit_model
-from Source.Models.nomenclature import nomenclature_model
+from Source.Logic.start_factory import start_factory
+from Source.Logic.reference_convertor import reference_convertor
+import json
 
 
 class convert_factory_test(unittest.TestCase):
-    def test_convert_object_unit_model(self):
+    def test_check_convert_nomenclature(self):
+        # Подготовка
+        items = start_factory.create_nomenclatures()
         factory = convert_factory()
-        unit = unit_model.create_unit_gramm()
-        converted_unit = factory.convert_object(unit)
+        if len(items) == 0:
+            raise Exception("Список номенклатуры пуст!")
 
-        self.assertEqual(converted_unit.name, 'грамм')
-        self.assertEqual(converted_unit.base_unit, None)
-        self.assertEqual(converted_unit.coefficient, 1)
+        item = items[0]
 
-    def test_convert_object_nomenclature_model(self):
+        # Действие
+        result = factory.convert(item)
+
+        # Проверки
+        assert result is not None
+        json_text = json.dumps(result, sort_keys=True, indent=4)
+
+        file = open("nomenclature.json", "w")
+        file.write(json_text)
+        file.close()
+
+    def test_check_convert_nomenctalures(self):
+        # Подготовка
+        items = start_factory.create_nomenclatures()
         factory = convert_factory()
-        group = unit_model.create_unit_shtuki()
-        unit = unit_model.create_unit_gramm()
-        nomenclature = nomenclature_model('Test Item', group, unit)
-        converted_nomenclature = factory.convert_object(nomenclature)
 
-        self.assertEqual(converted_nomenclature.name, 'Test Item')
-        self.assertEqual(converted_nomenclature.group.name, 'Группа')
-        self.assertEqual(converted_nomenclature.unit.name, 'грамм')
+        # Действие
+        result = factory.convert(items)
+
+        # Проверки
+        assert result is not None
+        json_text = json.dumps(result, sort_keys=True, indent=4)
+
+        file = open("nomenclatures.json", "w")
+        file.write(json_text)
+        file.close()
 

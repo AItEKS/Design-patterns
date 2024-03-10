@@ -4,7 +4,7 @@ from Source.exceptions import argument_exception
 
 
 class datetime_convertor(convertor):
-    def convert(self, obj):
+    def convert(self, field: str,  obj):
         if isinstance(obj, datetime.datetime):
             return {"datetime_value": obj.strftime("%Y-%m-%d %H:%M:%S")}
         else:

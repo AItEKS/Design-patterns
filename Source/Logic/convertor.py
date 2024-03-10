@@ -1,8 +1,10 @@
-from abc import ABC, abstractmethod
+import abc
+from Source.exceptions import exception_proxy
+from Source.errors import error_proxy
 
 
-class convertor(ABC):
-    @abstractmethod
-    def convert(self, obj):
-        pass
-
+class convertor(error_proxy):
+    @abc.abstractmethod
+    def convert(self, field: str, object) -> dict:
+        exception_proxy.validate(field, str)
+        self.clear()

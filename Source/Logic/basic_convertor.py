@@ -1,10 +1,16 @@
 from Source.Logic.convertor import convertor
-from Source.exceptions import argument_exception
 
 
 class basic_convertor(convertor):
-    def convert(self, obj):
-        if isinstance(obj, (int, float, str)):
-            return {"value": obj}
-        else:
-            raise argument_exception("Ошибка типа данных!")
+
+    def convert(self, field: str, object) -> dict:
+        super().convert(field, object)
+
+        if not isinstance(object, (int, str, bool)):
+            self.error = f"Некорректный тип данных передан для конвертации: {type(object)}"
+            return None
+        try:
+            return {field: object}
+        except Exception as ex:
+            self.error.set_error(ex)
+        return None

@@ -3,7 +3,6 @@ from Source.Models.unit import unit_model
 from Source.Models.nomenclature import nomenclature_model
 from Source.abstract_reference import abstract_reference
 from Source.Models.receipe import receipe_model
-from Source.Models.receipe_row import receipe_row_model
 
 from Source.settings import settings
 from Source.Storage.storage import storage

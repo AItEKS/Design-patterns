@@ -107,3 +107,34 @@ class reporting_test(unittest.TestCase):
         file = open("report_md.md", "w")
         file.write(result)
         file.close()
+
+    def test_check_json_create_nomenclature_key(self):
+        # Подготовка данных
+        data = {}
+        items = []
+
+        unit = unit_model.create_unit_kilogram()
+        group = group_model.create_default_group()
+
+        if unit is not None and group is not None:
+            item = nomenclature_model("Тушка бройлера", group, unit)
+            item.description = "Ингредиент для салата"
+            items.append(item)
+
+            key = storage.nomenclature_key()
+            data[key] = items
+
+            report = reporting_json(data)
+
+            # Действие
+            result = report.create(key)
+
+            # Проверки
+            assert result is not None
+            assert len(result) > 0
+
+            with open("report_json.json", "w") as file:
+                file.write(result)
+        else:
+            print("Ошибка: unit или group имеют значение None.")
+

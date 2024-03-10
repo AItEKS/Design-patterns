@@ -1,4 +1,3 @@
-from Source.Models.unit import unit_model
 from Source.Logic.start_factory import start_factory
 from Source.settings_manager import settings_manager
 from Source.Storage.storage import storage

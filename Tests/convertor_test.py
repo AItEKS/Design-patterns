@@ -24,3 +24,4 @@ class convert_factory_test(unittest.TestCase):
         self.assertEqual(converted_nomenclature.name, 'Test Item')
         self.assertEqual(converted_nomenclature.group.name, 'Группа')
         self.assertEqual(converted_nomenclature.unit.name, 'грамм')
+

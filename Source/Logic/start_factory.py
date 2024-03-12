@@ -1,8 +1,12 @@
+from datetime import datetime
+import random
+
 from Source.Models.group import group_model
 from Source.Models.unit import unit_model
 from Source.Models.nomenclature import nomenclature_model
 from Source.abstract_reference import abstract_reference
 from Source.Models.receipe import receipe_model
+from Source.Models.storage_row_model import storage_row_model
 
 from Source.settings import settings
 from Source.Storage.storage import storage
@@ -14,12 +18,14 @@ class start_factory:
     __storage: storage = None
 
     def __init__(self, __options: settings, __storage: storage = None) -> None:
+
         exception_proxy.validate(__options, settings)
         self.__options = __options
         self.__storage = __storage
 
     def __save(self, key: str, items: list):
         exception_proxy.validate(key, str)
+
         if self.__storage is None:
             self.__storage = storage()
 
@@ -46,20 +52,17 @@ class start_factory:
         items = [{"Мука пшеничная": "киллограмм"},
                  {"Сахар": "киллограмм"},
                  {"Сливочное масло": "киллограмм"},
-                 {"Яйца": "штука"},
-                 {"Ванилин": "грамм"},
+                 {"Яйца": "штука"}, {"Ванилин": "грамм"},
                  {"Куриное филе": "киллограмм"},
                  {"Салат Романо": "грамм"},
                  {"Сыр Пармезан": "киллограмм"},
                  {"Чеснок": "киллограмм"},
                  {"Белый хлеб": "киллограмм"},
-                 {"Соль": "киллограмм"},
-                 {"Черный перец": "грамм"},
+                 {"Соль": "киллограмм"}, {"Черный перец": "грамм"},
                  {"Оливковое масло": "литр"},
                  {"Лимонный сок": "литр"},
                  {"Горчица дижонская": "грамм"},
-                 {"Сахарная пудра": "грамм"},
-                 {"Ванилиин": "грамм"},
+                 {"Сахарная пудра": "грамм"}, {"Ванилиин": "грамм"},
                  {"Корица": "грамм"},
                  {"Какао": "киллограмм"}]
 
@@ -67,12 +70,12 @@ class start_factory:
 
         result = []
         for position in items:
-            _list = list(position.items())
-            if len(_list) < 1:
+            __list = list(position.items())
+            if len(__list) < 1:
                 raise operation_exception(
                     "Невозможно сформировать элементы номенклатуры! Некорректный список исходных элементов!")
 
-            tuple = list(_list)[0]
+            tuple = list(__list)[0]
 
             if len(tuple) < 2:
                 raise operation_exception("Невозможно сформировать элемент номенклатуры. Длина кортежа не корректна!")
@@ -106,12 +109,9 @@ class start_factory:
         if len(data) == 0:
             raise argument_exception("Некорректно переданы параметры! Список номенклатуры пуст.")
 
-        items = [{"Мука пшеничная": 100},
-                 {"Сахар": 80},
-                 {"Сливочное масло": 70},
-                 {"Яйца": 1},
-                 {"Ванилин": 5}]
-        item = receipe_model.create_receipt("Вафли хрустящие в вафельнице", "", items, data)
+        items = [{"Мука пшеничная": 100}, {"Сахар": 80}, {"Сливочное масло": 70},
+                 {"Яйца": 1}, {"Ванилин": 5}]
+        item = receipe_model.create_receipt("ВАФЛИ ХРУСТЯЩИЕ В ВАФЕЛЬНИЦЕ", "", items, data)
 
         item.instructions.extend([
             "Масло положите в сотейник с толстым дном. Растопите его на маленьком огне на плите, на водяной бане либо в микроволновке.",
@@ -123,19 +123,11 @@ class start_factory:
         item.comments = "Время приготовления: 20 мин. 8 порций"
         result.append(item)
 
-        items = [{"Куриное филе": 200},
-                 {"Салат Романо": 50},
-                 {"Сыр Пармезан": 50},
-                 {"Чеснок": 10},
-                 {"Белый хлеб": 30},
-                 {"Соль": 5},
-                 {"Черный перец": 2},
-                 {"Оливковое масло": 10},
-                 {"Лимонный сок": 5},
-                 {"Горчица дижонская": 5},
+        items = [{"Куриное филе": 200}, {"Салат Романо": 50}, {"Сыр Пармезан": 50},
+                 {"Чеснок": 10}, {"Белый хлеб": 30}, {"Соль": 5}, {"Черный перец": 2},
+                 {"Оливковое масло": 10}, {"Лимонный сок": 5}, {"Горчица дижонская": 5},
                  {"Яйца": 2}]
         item = receipe_model.create_receipt("Цезарь с курицей", "", items, data)
-
         item.instructions.extend([
             "Нарезать куриное филе кубиками, нарубите чеснок, нарежьте хлеб на кубики."
             "Очистить салат и обсушить его."
@@ -145,21 +137,15 @@ class start_factory:
             "В миске смешайте оливковое масло, лимонный сок, горчицу, измельченный чеснок, соль и перец."
             "В большой миске смешайте кубики курицы, хлеба, листья салата."
             "Добавить заправку и тщательно перемешать"])
+
         result.append(item)
 
-        items = [{"Яйца": 3},
-                 {"Сахарная пудра": 180},
-                 {"Ванилиин": 5},
-                 {"Корица": 5},
-                 {"Какао": 20}]
+        items = [{"Яйца": 3}, {"Сахарная пудра": 180}, {"Ванилиин": 5}, {"Корица": 5}, {"Какао": 20}]
         result.append(receipe_model.create_receipt("Безе", "", items, data))
-
         return result
 
     def create(self) -> bool:
         if self.__options.is_first_start:
-            self.__options.is_first_start = False
-
             items = start_factory.create_nomenclatures()
             self.__save(storage.nomenclature_key(), items)
 
@@ -175,3 +161,23 @@ class start_factory:
 
         else:
             return False
+
+    @staticmethod
+    def create_journal():
+        transactions = []
+
+        nomenclatures = start_factory.create_nomenclatures()
+        units = abstract_reference.create_dictionary(start_factory.create_units())
+
+        for i in range(20):
+            transaction = storage_row_model()
+            transaction.storage_name = "Storage_" + str(i + 1)
+            transaction.nomenclature = random.choice(nomenclatures)
+            transaction.count = random.randint(1, 100)
+            transaction.type_tranzaction = random.choice([True, False])
+            transaction.unit = random.choice(list(units.values()))
+            transaction.period = datetime.now()
+
+            transactions.append(transaction)
+
+        return transactions

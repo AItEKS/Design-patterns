@@ -41,7 +41,7 @@ class unit_model(abstract_reference):
     @staticmethod
     def create_unit_kilogram():
         base = unit_model.create_unit_gramm()
-        item = unit_model('килограмм', base, 1000)
+        item = unit_model('киллограмм', base, 1000)
         return item
 
     @staticmethod

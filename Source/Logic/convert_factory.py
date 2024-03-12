@@ -8,7 +8,6 @@ import datetime
 
 
 class reference_convertor(convertor):
-
     def serialize(self, field: str, object: abstract_reference) -> dict:
         super().serialize(field, object)
 
@@ -17,18 +16,19 @@ class reference_convertor(convertor):
 
 
 class convert_factory:
-    _maps = {}
+    __maps = {}
 
     def __init__(self) -> None:
-        self._maps[datetime] = datetime_convertor
-        self._maps[int] = basic_convertor
-        self._maps[str] = basic_convertor
-        self._maps[bool] = basic_convertor
+        self.__maps[datetime] = datetime_convertor
+        self.__maps[int] = basic_convertor
+        self.__maps[str] = basic_convertor
+        self.__maps[bool] = basic_convertor
 
+        # Связка для всех моделей
         for inheritor in abstract_reference.__subclasses__():
-            self._maps[inheritor] = reference_convertor
+            self.__maps[inheritor] = reference_convertor
 
-    def serialize(self, object):
+    def serialize(self, object) -> dict:
         result = self.__convert_list("data", object)
         if result is not None:
             return result
@@ -57,10 +57,10 @@ class convert_factory:
         if source is None:
             return {field: None}
 
-        if type(source) not in self._maps.keys():
+        if type(source) not in self.__maps.keys():
             raise operation_exception(f"Не возможно подобрать конвертор для типа {type(source)}")
 
-        convertor = self._maps[type(source)]()
+        convertor = self.__maps[type(source)]()
         dictionary = convertor.serialize(field, source)
 
         if not convertor.is_empty:
@@ -68,7 +68,7 @@ class convert_factory:
 
         return dictionary
 
-    def __convert_list(self, field: str, source):
+    def __convert_list(self, field: str, source) -> list:
         exception_proxy.validate(field, str)
 
         if isinstance(source, list):

@@ -7,6 +7,7 @@ from Source.exceptions import exception_proxy, argument_exception, operation_exc
 
 class report_factory:
     __maps = {}
+    __mimetype: str
 
     def __init__(self) -> None:
         self.__build_structure()
@@ -14,7 +15,11 @@ class report_factory:
     def __build_structure(self):
         self.__maps["csv"] = reporting_csv
         self.__maps["markdown"] = reporting_md
-        self.__maps["json"] = reporting_json
+        self.__maps["json"] = reporting_md
+
+    @property
+    def mimetype(self):
+        return self.__mimetype
 
     def create(self, format: str, data: dict) -> reporting:
         exception_proxy.validate(format, str)
@@ -28,6 +33,8 @@ class report_factory:
 
         report_type = self.__maps[format]
         result = report_type(data)
+        self.__mimetype = result.mimetype()
+
         return result
 
     def create_response(self, format: str, data: dict, storage_key: str, app):

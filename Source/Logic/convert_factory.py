@@ -1,25 +1,34 @@
-import datetime
 from Source.Logic.basic_convertor import basic_convertor
 from Source.Logic.datetime_convertor import datetime_convertor
-from Source.Logic.reference_convertor import reference_convertor
 from Source.exceptions import exception_proxy, operation_exception
 from Source.abstract_reference import abstract_reference
+from Source.Logic.convertor import convertor
+
+import datetime
+
+
+class reference_convertor(convertor):
+
+    def serialize(self, field: str, object: abstract_reference) -> dict:
+        super().serialize(field, object)
+
+        factory = convert_factory()
+        return factory.serialize(object)
 
 
 class convert_factory:
-    __maps = {}
+    _maps = {}
 
     def __init__(self) -> None:
-        self.__maps[datetime] = datetime_convertor
-        self.__maps[dict] = basic_convertor
-        self.__maps[int] = basic_convertor
-        self.__maps[str] = basic_convertor
-        self.__maps[bool] = basic_convertor
+        self._maps[datetime] = datetime_convertor
+        self._maps[int] = basic_convertor
+        self._maps[str] = basic_convertor
+        self._maps[bool] = basic_convertor
 
         for inheritor in abstract_reference.__subclasses__():
-            self.__maps[inheritor] = reference_convertor
+            self._maps[inheritor] = reference_convertor
 
-    def convert(self, object):
+    def serialize(self, object):
         result = self.__convert_list("data", object)
         if result is not None:
             return result
@@ -48,11 +57,11 @@ class convert_factory:
         if source is None:
             return {field: None}
 
-        if type(source) not in self.__maps.keys():
+        if type(source) not in self._maps.keys():
             raise operation_exception(f"Не возможно подобрать конвертор для типа {type(source)}")
 
-        convertor = self.__maps[type(source)]()
-        dictionary = convertor.convert(field, source)
+        convertor = self._maps[type(source)]()
+        dictionary = convertor.serialize(field, source)
 
         if not convertor.is_empty:
             raise operation_exception(f"Ошибка при конвертации данных {convertor.error}")
@@ -61,11 +70,19 @@ class convert_factory:
 
     def __convert_list(self, field: str, source):
         exception_proxy.validate(field, str)
-        if not isinstance(source, list):
-            return None
 
-        items = []
-        for item in source:
-            items.append(self.__convert_item(field, item))
+        if isinstance(source, list):
+            result = []
+            for item in source:
+                result.append(self.__convert_item(field, item))
 
-        return items
+            return result
+
+        if isinstance(source, dict):
+            result = {}
+            for key in source:
+                object = source[key]
+                value = self.__convert_item(key, object)
+                result[key] = value
+
+            return result

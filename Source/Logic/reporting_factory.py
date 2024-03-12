@@ -29,3 +29,19 @@ class report_factory:
         report_type = self.__maps[format]
         result = report_type(data)
         return result
+
+    def create_response(self, format: str, data: dict, storage_key: str, app):
+        if app is None:
+            raise argument_exception("Некорректно переданы параметры!")
+        exception_proxy.validate(storage_key, str)
+
+        report = self.create(format, data)
+        info = report.create(storage_key)
+
+        result = app.response_class(
+            response=f"{info}",
+            status=200,
+            mimetype=self.mimetype
+        )
+
+        return result

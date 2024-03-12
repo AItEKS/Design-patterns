@@ -1,12 +1,16 @@
-import datetime
 from Source.Logic.convertor import convertor
-from Source.exceptions import argument_exception
+from datetime import datetime
 
 
 class datetime_convertor(convertor):
-    def convert(self, field: str,  obj):
-        if isinstance(obj, datetime.datetime):
-            return {"datetime_value": obj.strftime("%Y-%m-%d %H:%M:%S")}
-        else:
-            raise argument_exception("Ошибка типа данных!")
+    def serialize(self, field: str, object):
+        super().serialize(field, object)
 
+        if not isinstance(object, datetime):
+            self.__error.error = f"Некорректный тип данных передан для конвертации. Ожидается: datetime. Передан: {type(object)}"
+            return None
+
+        try:
+            return {field: object.strftime('%YYYY-%mm-%dd %HH:%ss')}
+        except Exception as ex:
+            self.set_error(ex)

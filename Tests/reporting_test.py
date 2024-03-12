@@ -10,7 +10,6 @@ from Source.Logic.reporting_json import reporting_json
 
 
 class reporting_test(unittest.TestCase):
-
     def test_check_json_reporting_build(self):
         # Подготовка
         data = {}
@@ -83,7 +82,7 @@ class reporting_test(unittest.TestCase):
         assert result is not None
         assert len(result) > 0
 
-        file = open("report_csv.csv", "w")
+        file = open("csv_report.csv", "w")
         file.write(result)
         file.close()
 
@@ -104,6 +103,6 @@ class reporting_test(unittest.TestCase):
         assert result is not None
         assert len(result) > 0
 
-        file = open("report_md.md", "w")
+        file = open("markdown_report.md", "w")
         file.write(result)
         file.close()

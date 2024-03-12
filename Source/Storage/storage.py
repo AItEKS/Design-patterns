@@ -27,13 +27,10 @@ class storage:
         return "receipts"
 
     @staticmethod
-    def unit_key():
-        return "unit_key"
-
-    @staticmethod
-    def group_key():
-        return "group_key"
-
-    @staticmethod
-    def nomenclature_key():
-        return "nomenclature_key"
+    def storage_keys(cls):
+        keys = []
+        methods = [getattr(cls, method) for method in dir(cls) if callable(getattr(cls, method))]
+        for method in methods:
+            if method.__name__.endswith("_key") and callable(method):
+                keys.append(method())
+        return keys

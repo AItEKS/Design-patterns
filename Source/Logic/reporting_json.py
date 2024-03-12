@@ -1,6 +1,7 @@
 from Source.Logic.reporting import reporting
 from Source.exceptions import operation_exception
 import json
+from Source.Logic.convert_factory import convert_factory
 
 
 class reporting_json(reporting):
@@ -8,20 +9,23 @@ class reporting_json(reporting):
         super().create(typeKey)
         result = []
 
-        items = self.data[typeKey]
+        items = self.data.get(typeKey)
         if items is None:
             raise operation_exception("Невозможно сформировать данные. Данные не заполнены!")
 
-        if len(items) == 0:
+        if not items:
             raise operation_exception("Невозможно сформировать данные. Нет данных!")
 
-        data = {}
+        converter = convert_factory()
+
         for item in items:
+            converted_item = {}
             for field in self.fields:
                 value = getattr(item, field)
-                data[field] = value
+                converted_value = converter.convert_object(value)
+                converted_item[field] = converted_value
 
-            result.append(data)
+            result.append(converted_item)
 
         data = json.dumps(result)
         return data

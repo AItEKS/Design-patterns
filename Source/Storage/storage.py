@@ -27,6 +27,10 @@ class storage:
         return "receipts"
 
     @staticmethod
+    def process_turn_key():
+        return "process_turn_key"
+
+    @staticmethod
     def storage_keys(cls):
         keys = []
         methods = [getattr(cls, method) for method in dir(cls) if callable(getattr(cls, method))]

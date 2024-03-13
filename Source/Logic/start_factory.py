@@ -181,4 +181,3 @@ class start_factory:
             transactions.append(transaction)
 
         return transactions
-

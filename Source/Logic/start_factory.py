@@ -38,6 +38,7 @@ class start_factory:
     @staticmethod
     def create_units():
         items = []
+
         items.append(unit_model.create_unit_gramm())
         items.append(unit_model.create_unit_kilogram())
         items.append(unit_model.create_unit_litr())

@@ -1,24 +1,28 @@
 import json
+from Source.Models.unit import unit_model
+from Source.Models.nomenclature import nomenclature_model
+
+from Source.exceptions import argument_exception
 
 
 class deserializer:
     @staticmethod
-    def deserialize(json_data):
+    def deserialize(json_data, model_class):
         data = json.loads(json_data)
-        return deserializer.__process_data(data)
 
-    @staticmethod
-    def __process_data(data):
-        if isinstance(data, dict):
-            processed_data = {}
-            for key, value in data.items():
-                processed_data[key] = deserializer.__process_data(value)
-            return processed_data
+        if model_class == unit_model:
+            name = data.get('name')
+            base_unit = deserializer.deserialize(data.get('base_unit'), unit_model) if data.get('base_unit') else None
+            coefficent = data.get('coefficient')
 
-        elif isinstance(data, list):
-            processed_data = []
-            for item in data:
-                processed_data.append(deserializer.__process_data(item))
-            return processed_data
+            return unit_model(name, base_unit, coefficent)
+
+        elif model_class == nomenclature_model:
+            name = data.get('name')
+            group = deserializer.deserialize(data.get('group'), unit_model) if data.get('group') else None
+            unit = deserializer.deserialize(data.get('unit'), unit_model) if data.get('unit') else None
+
+            return nomenclature_model(name, group, unit)
+
         else:
-            return data
+            raise argument_exception('Неподдерживаемая модель для десериализации')

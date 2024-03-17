@@ -1,28 +1,22 @@
-import json
-from Source.Models.unit import unit_model
-from Source.Models.nomenclature import nomenclature_model
-
-from Source.exceptions import argument_exception
-
-
 class deserializer:
-    @staticmethod
-    def deserialize(json_data, model_class):
-        data = json.loads(json_data)
+    def __init__(self):
+        pass
 
-        if model_class == unit_model:
-            name = data.get('name')
-            base_unit = deserializer.deserialize(data.get('base_unit'), unit_model) if data.get('base_unit') else None
-            coefficent = data.get('coefficient')
+    def deserialize(self, json_obj):
+        if isinstance(json_obj, dict):
+            for key, value in json_obj.items():
+                if isinstance(value, dict):
+                    json_obj[key] = self.deserialize(value)
+                elif isinstance(value, list):
+                    json_obj[key] = [self.deserialize(item) for item in value]
+                elif '__class__' in value and '__module__' in value:
+                    class_name = value['__class__']
+                    module_name = value['__module__']
+                    module = __import__(module_name, fromlist=[class_name])
+                    class_ = getattr(module, class_name)
+                    instance = class_()
+                    instance.__dict__.update(value)
+                    json_obj[key] = instance
 
-            return unit_model(name, base_unit, coefficent)
+        return json_obj
 
-        elif model_class == nomenclature_model:
-            name = data.get('name')
-            group = deserializer.deserialize(data.get('group'), unit_model) if data.get('group') else None
-            unit = deserializer.deserialize(data.get('unit'), unit_model) if data.get('unit') else None
-
-            return nomenclature_model(name, group, unit)
-
-        else:
-            raise argument_exception('Неподдерживаемая модель для десериализации')

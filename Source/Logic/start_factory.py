@@ -1,12 +1,10 @@
-from datetime import datetime
-import random
-
 from Source.Models.group import group_model
 from Source.Models.unit import unit_model
 from Source.Models.nomenclature import nomenclature_model
 from Source.abstract_reference import abstract_reference
 from Source.Models.receipe import receipe_model
 from Source.Models.storage_row_model import storage_row_model
+from Source.Models.storage_model import storage_model
 
 from Source.settings import settings
 from Source.Storage.storage import storage
@@ -14,14 +12,15 @@ from Source.exceptions import exception_proxy, operation_exception, argument_exc
 
 
 class start_factory:
-    __options: settings = None
+    __oprions: settings = None
     __storage: storage = None
 
-    def __init__(self, __options: settings, __storage: storage = None) -> None:
+    def __init__(self, _options: settings,
+                 _storage: storage = None) -> None:
 
-        exception_proxy.validate(__options, settings)
-        self.__options = __options
-        self.__storage = __storage
+        exception_proxy.validate(_options, settings)
+        self.__oprions = _options
+        self.__storage = _storage
 
     def __save(self, key: str, items: list):
         exception_proxy.validate(key, str)
@@ -36,9 +35,8 @@ class start_factory:
         return self.__storage
 
     @staticmethod
-    def create_units():
+    def create_units() -> list:
         items = []
-
         items.append(unit_model.create_unit_gramm())
         items.append(unit_model.create_unit_kilogram())
         items.append(unit_model.create_unit_litr())
@@ -48,13 +46,13 @@ class start_factory:
         return items
 
     @staticmethod
-    def create_nomenclatures():
+    def create_nomenclatures() -> list:
         group = group_model.create_default_group()
         items = [{"Мука пшеничная": "киллограмм"},
                  {"Сахар": "киллограмм"},
                  {"Сливочное масло": "киллограмм"},
                  {"Яйца": "штука"}, {"Ванилин": "грамм"},
-                 {"Куриное филе": "киллограмм"},
+                 {"Куринное филе": "киллограмм"},
                  {"Салат Романо": "грамм"},
                  {"Сыр Пармезан": "киллограмм"},
                  {"Чеснок": "киллограмм"},
@@ -71,12 +69,12 @@ class start_factory:
 
         result = []
         for position in items:
-            __list = list(position.items())
-            if len(__list) < 1:
+            _list = list(position.items())
+            if len(_list) < 1:
                 raise operation_exception(
                     "Невозможно сформировать элементы номенклатуры! Некорректный список исходных элементов!")
 
-            tuple = list(__list)[0]
+            tuple = list(_list)[0]
 
             if len(tuple) < 2:
                 raise operation_exception("Невозможно сформировать элемент номенклатуры. Длина кортежа не корректна!")
@@ -93,26 +91,27 @@ class start_factory:
         return result
 
     @staticmethod
-    def create_groups():
+    def create_groups() -> list:
         items = []
         items.append(group_model.create_default_group())
         return items
 
     @staticmethod
-    def create_receipts(__data: list = None):
+    def create_receipts(_data: list = None) -> list:
         result = []
 
-        if __data is None:
+        if _data is None:
             data = start_factory.create_nomenclatures()
         else:
-            data = __data
+            data = _data
 
         if len(data) == 0:
             raise argument_exception("Некорректно переданы параметры! Список номенклатуры пуст.")
 
         items = [{"Мука пшеничная": 100}, {"Сахар": 80}, {"Сливочное масло": 70},
-                 {"Яйца": 1}, {"Ванилин": 5}]
-        item = receipe_model.create_receipt("ВАФЛИ ХРУСТЯЩИЕ В ВАФЕЛЬНИЦЕ", "", items, data)
+                 {"Яйца": 1}, {"Ванилин": 5}
+                 ]
+        item = receipe_model.create_receipt("Вафли хрустящие в вафильнице", "", items, data)
 
         item.instructions.extend([
             "Масло положите в сотейник с толстым дном. Растопите его на маленьком огне на плите, на водяной бане либо в микроволновке.",
@@ -124,10 +123,12 @@ class start_factory:
         item.comments = "Время приготовления: 20 мин. 8 порций"
         result.append(item)
 
-        items = [{"Куриное филе": 200}, {"Салат Романо": 50}, {"Сыр Пармезан": 50},
+        # Цезарь с курицей
+        items = [{"Куринное филе": 200}, {"Салат Романо": 50}, {"Сыр Пармезан": 50},
                  {"Чеснок": 10}, {"Белый хлеб": 30}, {"Соль": 5}, {"Черный перец": 2},
                  {"Оливковое масло": 10}, {"Лимонный сок": 5}, {"Горчица дижонская": 5},
-                 {"Яйца": 2}]
+                 {"Яйца": 2}
+                 ]
         item = receipe_model.create_receipt("Цезарь с курицей", "", items, data)
         item.instructions.extend([
             "Нарезать куриное филе кубиками, нарубите чеснок, нарежьте хлеб на кубики."
@@ -145,12 +146,45 @@ class start_factory:
         result.append(receipe_model.create_receipt("Безе", "", items, data))
         return result
 
-    def create(self) -> bool:
-        if self.__options.is_first_start:
-            items = start_factory.create_nomenclatures()
-            self.__save(storage.nomenclature_key(), items)
+    @staticmethod
+    def create_storage_transactions(data: dict) -> list:
+        result = []
+        default_storage = storage_model.create_default()
 
-            items = start_factory.create_receipts(items)
+        if len(data.keys()) == 0:
+            raise operation_exception("Набор данных пуст. Невозможно сформировать список транзакций!")
+
+        items = [{"Мука пшеничная": [1, "киллограмм"]},
+                 {"Черный перец": [50, "грамм"]},
+                 {"Сахар": [0.5, "киллограмм"]},
+                 {"Яйца": [6, "штука"]},
+                 {"Оливковое масло": [0.2, "литр"]},
+                 {"Куринное филе": [0.5, "киллограмм"]},
+                 {"Салат Романо": [1, "штука"]},
+                 {"Белый хлеб": [3, "штука"]},
+                 {"Сыр Пармезан": [0.2, "киллограмм"]},
+                 {"Горчица дижонская": [0.1, "литр"]},
+                 {"Черный перец": [10, "грамм"]},
+                 {"Лимонный сок": [1, "литр"]},
+                 {"Какао": [1, "киллограмм"]},
+                 {"Сыр Пармезан": [0.3, "киллограмм"]},
+                 {"Ванилиин": [100, "грамм"]}]
+
+        for element in items:
+            key = list(element.keys())[0]
+            values = list(element.values())[0]
+
+            row = storage_row_model.create_credit_row(key, values, data, default_storage)
+            result.append(row)
+
+        return result
+
+    def create(self) -> bool:
+        if self.__oprions.is_first_start == True:
+            nomenclatures = start_factory.create_nomenclatures()
+            self.__save(storage.nomenclature_key(), nomenclatures)
+
+            items = start_factory.create_receipts(nomenclatures)
             self.__save(storage.receipt_key(), items)
 
             items = start_factory.create_units()
@@ -158,27 +192,11 @@ class start_factory:
 
             items = start_factory.create_groups()
             self.__save(storage.group_key(), items)
+
+            items = start_factory.create_storage_transactions(self.storage.data)
+            self.__save(storage.storage_transaction_key(), items)
+
             return True
 
         else:
             return False
-
-    @staticmethod
-    def create_journal():
-        transactions = []
-
-        nomenclatures = start_factory.create_nomenclatures()
-        units = abstract_reference.create_dictionary(start_factory.create_units())
-
-        for i in range(20):
-            transaction = storage_row_model()
-            transaction.storage_name = "Storage_" + str(i + 1)
-            transaction.nomenclature = random.choice(nomenclatures)
-            transaction.count = random.randint(1, 100)
-            transaction.type_tranzaction = random.choice([True, False])
-            transaction.unit = random.choice(list(units.values()))
-            transaction.period = datetime.now()
-
-            transactions.append(transaction)
-
-        return transactions

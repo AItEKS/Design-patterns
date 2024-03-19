@@ -1,5 +1,6 @@
 from Source.errors import error_proxy
 from datetime import datetime
+from Source.Models.nomenclature import nomenclature_model
 
 
 class storage_prototype(error_proxy):
@@ -28,9 +29,16 @@ class storage_prototype(error_proxy):
 
         return storage_prototype(result)
 
+    def filter_nom(self, nomenclature: nomenclature_model):
+        if len(self.__data) <= 0:
+            self.error = "Некорректно переданы параметры!"
 
+        if not self.is_empty:
+            return self.__data
 
+        result = []
+        for item in self.__data:
+            if item.nomenclature == nomenclature:
+                result.append(item)
 
-
-
-
+        return storage_prototype(result)

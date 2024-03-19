@@ -1,24 +1,22 @@
-import json
-
-
 class deserializer:
-    @staticmethod
-    def deserialize(json_data):
-        data = json.loads(json_data)
-        return deserializer.__process_data(data)
+    def __init__(self):
+        pass
 
-    @staticmethod
-    def __process_data(data):
-        if isinstance(data, dict):
-            processed_data = {}
-            for key, value in data.items():
-                processed_data[key] = deserializer.__process_data(value)
-            return processed_data
+    def deserialize(self, json_obj):
+        if isinstance(json_obj, dict):
+            for key, value in json_obj.items():
+                if isinstance(value, dict):
+                    json_obj[key] = self.deserialize(value)
+                elif isinstance(value, list):
+                    json_obj[key] = [self.deserialize(item) for item in value]
+                elif '__class__' in value and '__module__' in value:
+                    class_name = value['__class__']
+                    module_name = value['__module__']
+                    module = __import__(module_name, fromlist=[class_name])
+                    class_ = getattr(module, class_name)
+                    instance = class_()
+                    instance.__dict__.update(value)
+                    json_obj[key] = instance
 
-        elif isinstance(data, list):
-            processed_data = []
-            for item in data:
-                processed_data.append(deserializer.__process_data(item))
-            return processed_data
-        else:
-            return data
+        return json_obj
+

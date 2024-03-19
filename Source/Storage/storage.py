@@ -19,16 +19,16 @@ class storage:
         return "groups"
 
     @staticmethod
+    def storage_transaction_key():
+        return "transactions"
+
+    @staticmethod
     def unit_key():
         return "units"
 
     @staticmethod
     def receipt_key():
         return "receipts"
-
-    @staticmethod
-    def process_turn_key():
-        return "process_turn_key"
 
     @staticmethod
     def storage_keys(cls):

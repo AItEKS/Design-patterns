@@ -2,18 +2,21 @@ from Source.errors import error_proxy
 
 
 class exception_proxy(Exception):
-    __error: error_proxy = error_proxy()
+    _error: error_proxy = error_proxy()
 
     def __init__(self, *args: object) -> None:
         super().__init__(*args)
-        self.__error.set_error(self)
+        self._error.set_error(self)
 
     @property
     def error(self):
-        return self.__error
+        return self._error
 
     @staticmethod
     def validate(value, type_, len_=None):
+        if value is None:
+            raise argument_exception("Пустой аргумент")
+
         if not isinstance(value, type_):
             raise argument_exception("Некорректный тип")
 
@@ -30,5 +33,5 @@ class argument_exception(exception_proxy):
     pass
 
 
-class operation_exception(argument_exception):
+class operation_exception(exception_proxy):
     pass

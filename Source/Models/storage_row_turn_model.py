@@ -48,7 +48,7 @@ class storage_row_turn_model(abstract_reference):
         self._storage = value
 
     @staticmethod
-    def create(nomenclature: nomenclature_model, storage: storage_model, unit: unit_model) -> reference:
+    def create(nomenclature: nomenclature_model, storage: storage_model, unit: unit_model) -> abstract_reference:
         row = storage_row_turn_model("-")
         row.storage = storage
         row.unit = unit

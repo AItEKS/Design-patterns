@@ -79,7 +79,7 @@ class storage_row_model(abstract_reference):
         self._period = value
 
     @staticmethod
-    def create_credit_row(nomenclature_name: str, details: list, data: dict, _storage: storage_model) -> reference:
+    def create_credit_row(nomenclature_name: str, details: list, data: dict, _storage: storage_model) -> abstract_reference:
         exception_proxy.validate(nomenclature_name, str)
         exception_proxy.validate(_storage, storage_model)
         if details is None:

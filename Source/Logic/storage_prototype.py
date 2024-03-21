@@ -29,7 +29,7 @@ class storage_prototype(error_proxy):
 
         return storage_prototype(result)
 
-    def filter_nom(self, nomenclature: nomenclature_model):
+    def filter_nom(self, nomenclature_id):
         if len(self.__data) <= 0:
             self.error = "Некорректно переданы параметры!"
 
@@ -38,7 +38,11 @@ class storage_prototype(error_proxy):
 
         result = []
         for item in self.__data:
-            if item.nomenclature == nomenclature:
+            if item.nomenclature_id == nomenclature_id:
                 result.append(item)
 
         return storage_prototype(result)
+
+    @property
+    def data(self):
+        return self.__data

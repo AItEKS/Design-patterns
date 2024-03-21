@@ -16,6 +16,9 @@ class storage_service:
         self.__data = data
 
     def create_turns(self, start_period: datetime, stop_period: datetime) -> dict:
+        if not isinstance(start_period, datetime) or not isinstance(stop_period, datetime):
+            raise argument_exception("Некорректно переданы параметры!")
+
         exception_proxy.validate(start_period, datetime)
         exception_proxy.validate(stop_period, datetime)
 
@@ -23,23 +26,40 @@ class storage_service:
             raise argument_exception("Некорректно переданы параметры!")
 
         prototype = storage_prototype(self.__data)
-        filter = prototype.filter(start_period, stop_period)
+        filtred_data = prototype.filter(start_period, stop_period)
 
         key_turn = process_factory.turn_key()
         processing = process_factory().create(key_turn)
 
-        turns = processing().process(filter.data)
+        turns = processing().process(filtred_data.data)
         return turns
 
-    def get_turns_nom(self, nomenclature_id: int) -> dict:
+    def get_turns_nom(self, nomenclature_id: str) -> dict:
+        if not isinstance(nomenclature_id, str):
+            raise argument_exception("Некорректно переданы параметры!")
+
         prototype = storage_prototype(self.__data)
         filtred_data = prototype.filter_nom(nomenclature_id)
 
         key_turn = process_factory.turn_key()
         processing = process_factory().create(key_turn)
 
-        turns = processing().process(filtred_data)
+        turns = processing().process(filtred_data.data)
         return turns
+
+    def get_debit_rec(self, receipt_id: str, storage: str) -> list:
+        if not isinstance(receipt_id, str) or not isinstance(storage, str):
+            raise argument_exception("Некорректно переданы параметры!")
+
+        prototype = storage_prototype(self.__data)
+        filtred_data = prototype.filter_nom(receipt_id)
+
+        debits = self.__generate_debit(filtred_data, storage)
+
+        return debits
+
+    def __generate_debit(self):
+        pass
 
     @staticmethod
     def create_response(data: list, app):

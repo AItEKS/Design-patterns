@@ -29,7 +29,7 @@ class storage_prototype(error_proxy):
 
         return storage_prototype(result)
 
-    def filter_nom(self, nomenclature_id):
+    def filter_nom(self, nomenclature_id: str):
         if len(self.__data) <= 0:
             self.error = "Некорректно переданы параметры!"
 
@@ -39,6 +39,20 @@ class storage_prototype(error_proxy):
         result = []
         for item in self.__data:
             if item.nomenclature_id == nomenclature_id:
+                result.append(item)
+
+        return storage_prototype(result)
+
+    def filter_receipt(self, receipt_id: str):
+        if len(self.__data) <= 0:
+            self.error = "Некорректно переданы параметры!"
+
+        if not self.is_empty:
+            return self.__data
+
+        result = []
+        for item in self.__data:
+            if item.receipt_id == receipt_id:
                 result.append(item)
 
         return storage_prototype(result)

@@ -38,17 +38,16 @@ class prototype_test(unittest.TestCase):
         manager = settings_manager()
         start = start_factory(manager.settings)
         start.create()
-        key = storage.storage_transaction_key()
-        data = start.storage.data[key]
-
-        nomenclature_id = "Test Nomenclature"
-        prototype = storage_prototype(data)
+        nomenclatures = start.create_nomenclatures()
+        nomenclature_id = nomenclatures[0].id
 
         # Действие
+        prototype = storage_prototype(start.storage.data)
         result = prototype.filter_nom(nomenclature_id)
 
         # Проверка
-        self.assertIsInstance(result, storage_prototype)
+        self.assertIsInstance(result, list)
+        self.assertTrue(all(isinstance(item, nomenclature_model) for item in result))
 
     def test_filter_receipt(self):
         # Тест фильтрации данных по номеру накладной
@@ -68,7 +67,3 @@ class prototype_test(unittest.TestCase):
 
         # Проверка
         self.assertIsInstance(result, storage_prototype)
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -47,12 +47,12 @@ class storage_service:
         turns = processing().process(filtred_data.data)
         return turns
 
-    def get_debit_rec(self, receipt_id: str, storage: str) -> list:
-        if not isinstance(receipt_id, str) or not isinstance(storage, str):
+    def get_debit_rec(self, receipt_row: str, storage: str) -> list:
+        if not isinstance(receipt_row, str) or not isinstance(storage, str):
             raise argument_exception("Некорректно переданы параметры!")
 
         prototype = storage_prototype(self.__data)
-        filtred_data = prototype.filter_nom(receipt_id)
+        filtred_data = prototype.filter_nom(receipt_row)
 
         debits = self.__generate_debit(filtred_data, storage)
 

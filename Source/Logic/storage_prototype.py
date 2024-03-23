@@ -43,7 +43,7 @@ class storage_prototype(error_proxy):
 
         return storage_prototype(result)
 
-    def filter_receipt(self, receipt_id: str):
+    def filter_receipt(self, receipt_row: str):
         if len(self.__data) <= 0:
             self.error = "Некорректно переданы параметры!"
 
@@ -52,7 +52,7 @@ class storage_prototype(error_proxy):
 
         result = []
         for item in self.__data:
-            if item.receipt_id == receipt_id:
+            if item.receipt_row == receipt_row:
                 result.append(item)
 
         return storage_prototype(result)

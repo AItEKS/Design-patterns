@@ -58,8 +58,18 @@ class storage_service:
 
         return debits
 
-    def __generate_debit(self):
-        pass
+    def __generate_debit(self, filtred_data, storage):
+        debits = []
+        for transaction in filtred_data.data:
+            if transaction.storage == storage and not transaction.storage_type:
+                debit_transaction = {
+                    'nomenclature': transaction.nomenclature,
+                    'storage': transaction.storage,
+                    'unit': transaction.unit,
+                    'value': -transaction.value
+                }
+                debits.append(debit_transaction)
+        return debits
 
     @staticmethod
     def create_response(data: list, app):

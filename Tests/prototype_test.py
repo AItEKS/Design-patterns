@@ -57,7 +57,7 @@ class prototype_test(unittest.TestCase):
         start = start_factory(manager.settings)
         start.create()
         key = storage.storage_transaction_key()
-        data = start.storage.data[key]
+        data = list(start.storage.data.values())
 
         receipt_id = "TestReceiptID"
         prototype = storage_prototype(data)
@@ -66,4 +66,4 @@ class prototype_test(unittest.TestCase):
         result = prototype.filter_receipt(receipt_id)
 
         # Проверка
-        self.assertIsInstance(result, storage_prototype)
+        self.assertIsInstance(result, list)

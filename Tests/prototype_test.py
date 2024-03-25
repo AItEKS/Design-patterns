@@ -9,8 +9,6 @@ from datetime import datetime
 
 class prototype_test(unittest.TestCase):
     def test_filter(self):
-        # Тест фильтрации данных по периоду
-
         # Подготовка данных для теста
         manager = settings_manager()
         start = start_factory(manager.settings)
@@ -29,11 +27,9 @@ class prototype_test(unittest.TestCase):
 
         # Проверка
         self.assertIsInstance(result1, storage_prototype)
-        self.assertTrue(prototype.is_empty)
+        self.assertTrue(result1.is_empty)
 
     def test_filter_nom(self):
-        # Тест фильтрации данных по номенклатуре
-
         # Подготовка данных для теста
         manager = settings_manager()
         start = start_factory(manager.settings)
@@ -46,12 +42,10 @@ class prototype_test(unittest.TestCase):
         result = prototype.filter_nom(nomenclature_id)
 
         # Проверка
-        self.assertIsInstance(result, list)
-        self.assertTrue(all(isinstance(item, nomenclature_model) for item in result))
+        self.assertIsInstance(result, storage_prototype)
+        self.assertTrue(result.is_empty)
 
     def test_filter_receipt(self):
-        # Тест фильтрации данных по номеру накладной
-
         # Подготовка данных для теста
         manager = settings_manager()
         start = start_factory(manager.settings)
@@ -63,7 +57,9 @@ class prototype_test(unittest.TestCase):
         prototype = storage_prototype(data)
 
         # Действие
-        result = prototype.filter_receipt(receipt_id)
+        result = prototype.filter_recipe(receipt_id)
 
         # Проверка
-        self.assertIsInstance(result, list)
+        self.assertIsInstance(result, storage_prototype)
+        self.assertTrue(result.is_empty)
+

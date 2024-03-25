@@ -1,6 +1,7 @@
 from Source.Logic.convert_factory import convert_factory
 from Source.Logic.process_factory import process_factory
 from Source.Logic.storage_prototype import storage_prototype
+from Source.Models.storage_row_model import storage_row_model
 from Source.exceptions import argument_exception, exception_proxy
 from datetime import datetime
 import json
@@ -62,13 +63,13 @@ class storage_service:
         debits = []
         for transaction in filtred_data.data:
             if transaction.storage == storage and not transaction.storage_type:
-                debit_transaction = {
-                    'nomenclature': transaction.nomenclature,
-                    'storage': transaction.storage,
-                    'unit': transaction.unit,
-                    'value': -transaction.value
-                }
+                debit_transaction = storage_row_model()
+                debit_transaction.nomenclature = transaction.nomenclature
+                debit_transaction.storage = transaction.storage
+                debit_transaction.unit = transaction.unit
+                debit_transaction.value = -transaction.value
                 debits.append(debit_transaction)
+
         return debits
 
     @staticmethod

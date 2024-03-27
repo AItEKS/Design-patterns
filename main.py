@@ -1,9 +1,11 @@
-from flask import Flask
+from flask import Flask, request
+from datetime import datetime
 from Source.settings_manager import settings_manager
 from Source.Storage.storage import storage
 from Source.errors import error_proxy
 from Source.Logic.reporting_factory import report_factory
 from Source.Logic.start_factory import start_factory
+from Source.Logic.storage_service import storage_service
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -21,11 +23,39 @@ def get_report(storage_key: str):
 
     report = report_factory()
     data = start.storage.data
+
     try:
         result = report.create_response(options.settings.report_mode, data, storage_key, app)
         return result
     except Exception as ex:
         return error_proxy.create_error_response(app, f"Ошибка при формировании отчета {ex}", 500)
+
+
+@app.route("/api/storage/turns", methods=["GET"])
+def get_turns():
+    args = request.args
+    if "start_period" not in args.keys():
+        return error_proxy.create_error_response("Необходимо передать параметры: start_period, stop_period!")
+
+    if "stop_period" not in args.keys():
+        return error_proxy.create_error_response("Необходимо передать параметры: start_period, stop_period!")
+
+    start_date = datetime.strptime(args["start_period"], "%Y-%m-%d")
+    stop_date = datetime.strptime(args["stop_period"], "%Y-%m-%d")
+
+    source_data = start.storage.data[storage.storage_transaction_key()]
+    data = storage_service(source_data).create_turns(start_date, stop_date)
+    result = storage_service.create_response(data, app)
+    return result
+
+
+@app.route("/api/storage/<int:nomenclature_id>/turns", methods=["GET"])
+def get_turns_nom(nomenclature_id):
+    source_data = start.storage.data[storage.storage_transaction_key()]
+    data = storage_service(source_data).get_turns_nom(nomenclature_id)
+    result = storage_service.create_response(data, app)
+
+    return result
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
-from Src.Logics.start_factory import start_factory
-from Src.settings_manager import settings_manager
-from Src.Storage.storage import storage
-from Src.Logics.report_factory import report_factory
+from Source.Logics.start_factory import start_factory
+from Source.settings_manager import settings_manager
+from Source.Storage.storage import storage
+from Source.Logics.report_factory import report_factory
 
 import unittest
 

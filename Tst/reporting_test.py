@@ -1,14 +1,14 @@
 import unittest
-from Src.Logics.reporting import reporting
-from Src.Models.unit_model import unit_model
-from Src.Storage.storage import storage
-from Src.Logics.csv_reporting import csv_reporting
-from Src.Models.nomenclature_model import nomenclature_model
-from Src.Models.group_model import group_model
-from Src.Logics.markdown_reporting import markdown_reporting
-from Src.Logics.json_reporting import json_reporting
-from Src.Logics.start_factory import start_factory
-from Src.settings import settings
+from Source.Logics.reporting import reporting
+from Source.Models.unit_model import unit_model
+from Source.Storage.storage import storage
+from Source.Logics.csv_reporting import csv_reporting
+from Source.Models.nomenclature_model import nomenclature_model
+from Source.Models.group_model import group_model
+from Source.Logics.markdown_reporting import markdown_reporting
+from Source.Logics.json_reporting import json_reporting
+from Source.Logics.start_factory import start_factory
+from Source.settings import settings
 
 
 class reporting_test(unittest.TestCase):

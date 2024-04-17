@@ -1,7 +1,7 @@
-from Src.settings_manager import settings_manager 
-from Src.Logics.start_factory import start_factory
-from Src.Logics.Services.storage_service import storage_service
-from Src.Storage.storage import storage
+from Source.settings_manager import settings_manager 
+from Source.Logics.start_factory import start_factory
+from Source.Logics.Services.storage_service import storage_service
+from Source.Storage.storage import storage
 import unittest
 from datetime import datetime
 

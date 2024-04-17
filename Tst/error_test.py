@@ -1,4 +1,4 @@
-from Src.errors import error_proxy 
+from Source.errors import error_proxy 
 import unittest
 
 #

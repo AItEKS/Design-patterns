@@ -1,8 +1,8 @@
-from Src.Logics.storage_prototype import storage_prototype
-from Src.Logics.start_factory import start_factory
-from Src.settings_manager import settings_manager
-from Src.Storage.storage import storage
-from Src.exceptions import operation_exception
+from Source.Logics.storage_prototype import storage_prototype
+from Source.Logics.start_factory import start_factory
+from Source.settings_manager import settings_manager
+from Source.Storage.storage import storage
+from Source.exceptions import operation_exception
 
 from datetime import datetime
 import unittest

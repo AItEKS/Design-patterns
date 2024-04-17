@@ -1,7 +1,7 @@
 import unittest
-from Src.settings_manager import settings_manager
-from Src.Logics.start_factory import start_factory
-from Src.exceptions import operation_exception
+from Source.settings_manager import settings_manager
+from Source.Logics.start_factory import start_factory
+from Source.exceptions import operation_exception
 
 class storage_test(unittest.TestCase):
 

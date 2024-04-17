@@ -1,13 +1,13 @@
 import unittest
-from Src.Logics.start_factory import start_factory
-from Src.settings_manager import settings_manager
-from Src.Logics.process_factory import process_factory
-from Src.Storage.storage import storage
-from Src.Logics.Processings.processing import processing
-from Src.Models.storage_row_turn_model import storage_row_turn_model
-from Src.exceptions import operation_exception
-from Src.Models.storage_model import storage_model
-from Src.Models.unit_model import unit_model
+from Source.Logics.start_factory import start_factory
+from Source.settings_manager import settings_manager
+from Source.Logics.process_factory import process_factory
+from Source.Storage.storage import storage
+from Source.Logics.Processings.processing import processing
+from Source.Models.storage_row_turn_model import storage_row_turn_model
+from Source.exceptions import operation_exception
+from Source.Models.storage_model import storage_model
+from Source.Models.unit_model import unit_model
 
 #
 # Набор содульных тестов для проверки процессов обработки данных

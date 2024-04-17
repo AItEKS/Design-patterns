@@ -1,9 +1,9 @@
-from Src.Logics.start_factory import start_factory
-from Src.Logics.convert_factory import convert_factory
-from Src.Models.nomenclature_model import nomenclature_model
-from Src.Models.receipe_model import receipe_model
-from Src.Storage.storage import storage
-from Src.settings_manager import settings_manager
+from Source.Logics.start_factory import start_factory
+from Source.Logics.convert_factory import convert_factory
+from Source.Models.nomenclature_model import nomenclature_model
+from Source.Models.receipe_model import receipe_model
+from Source.Storage.storage import storage
+from Source.settings_manager import settings_manager
 
 import unittest
 import json

@@ -1,13 +1,13 @@
-from Src.Logics.Services.storage_service import storage_service
-from Src.Logics.start_factory import start_factory
-from Src.settings_manager import settings_manager
-from Src.Storage.storage import storage
-from Src.exceptions import operation_exception
-from Src.Logics.Services.reference_service import reference_service
-from Src.Logics.convert_factory import convert_factory
-from Src.Models.nomenclature_model import nomenclature_model
-from Src.Logics.storage_observer import storage_observer
-from Src.Models.event_type import event_type
+from Source.Logics.Services.storage_service import storage_service
+from Source.Logics.start_factory import start_factory
+from Source.settings_manager import settings_manager
+from Source.Storage.storage import storage
+from Source.exceptions import operation_exception
+from Source.Logics.Services.reference_service import reference_service
+from Source.Logics.convert_factory import convert_factory
+from Source.Models.nomenclature_model import nomenclature_model
+from Source.Logics.storage_observer import storage_observer
+from Source.Models.event_type import event_type
 
 from datetime import datetime
 import unittest

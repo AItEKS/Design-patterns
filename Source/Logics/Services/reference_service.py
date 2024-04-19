@@ -25,7 +25,7 @@ class reference_service(service):
 
         self.data.append(item)
 
-        post_processing_service.raise_event(event_type.nomenclature_deleted())
+        storage_observer.raise_event(event_type.nomenclature_deleted())
 
         return True
     

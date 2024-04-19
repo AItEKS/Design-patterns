@@ -24,9 +24,6 @@ class reference_service(service):
             return False
 
         self.data.append(item)
-
-        storage_observer.raise_event(event_type.nomenclature_deleted())
-
         return True
     
     def delete(self, item:reference) -> bool:
@@ -39,6 +36,9 @@ class reference_service(service):
             return False
         
         self.data.remove(found[0])
+
+        storage_observer.raise_event(event_type.nomenclature_deleted())
+
         return True
 
     def change(self, item:reference) -> bool:

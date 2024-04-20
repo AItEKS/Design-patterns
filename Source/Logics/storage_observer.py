@@ -9,10 +9,6 @@ from Source.Logics.Services.reference_service import reference_service
 class storage_observer:
     observers = []
 
-    def __init__(self, data: list) -> None:
-        super().__init__(data)
-        storage_observer.observers.append(self)
-
     @staticmethod
     def raise_event(handle_event: str):
         """

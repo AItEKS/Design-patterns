@@ -14,3 +14,12 @@ class event_type(reference):
             str: _description_
         """
         return "changed_block_period"
+
+    @staticmethod
+    def nomenclature_deleted() -> str:
+        """
+            Событие удаления номенклатуры из рецептов
+        Returns:
+            str: Событие удаления номенклатуры из рецептов
+        """
+        return "nomenclature_deleted"

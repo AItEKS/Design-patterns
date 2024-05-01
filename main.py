@@ -191,4 +191,6 @@ def get_block_period():
 
 
 if __name__ == "__main__":
+    storage = storage(options.settings)
+    
     app.run(debug = True)

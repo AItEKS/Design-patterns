@@ -1,4 +1,9 @@
 import json
+from datetime import datetime
+from Source.Logics.storage_observer import storage_observer
+from Models.event_type import event_type
+from Source.LogEntry import LogEntry
+
 
 #
 # Класс для обработки и хранения текстовой информации об ошибке
@@ -6,11 +11,11 @@ import json
 class error_proxy:
     " Текст с описание ошибки "
     _error_text = ""
-    
+
     def __init__(self, exception: Exception = None):
         if exception is not None:
             self.set_error(exception)
-    
+
     @property
     def error(self):
         """
@@ -19,14 +24,14 @@ class error_proxy:
             str: _description_
         """
         return self._error_text
-    
+
     @error.setter
     def error(self, value: str):
         if value == "":
             raise Exception("Некорректно переданы параметры!")
-            
+
         self._error_text = value
-        
+
     @classmethod
     def set_error(self, exception: Exception):
         """
@@ -34,14 +39,14 @@ class error_proxy:
         Args:
             exception (Exception): входящее исключение
         """
-        
-        if exception  is None:
+
+        if exception is None:
             self._error_text = ""
             return
-            
-        self._error_text = "Ошибка! " + str(exception)    
-            
-    @property        
+
+        self._error_text = "Ошибка! " + str(exception)
+
+    @property
     def is_empty(self) -> bool:
         """
             Флаг. Есть ошибка
@@ -51,16 +56,16 @@ class error_proxy:
         if len(self._error_text) != 0:
             return False
         else:
-            return True       
-        
+            return True
+
     def clear(self):
         """
             Очистить
         """
-        self._error_text = "" 
-        
-    @staticmethod    
-    def create_error_response( app,  message: str, http_code: int = 0):
+        self._error_text = ""
+
+    @staticmethod
+    def create_error_response(app, message: str, http_code: int = 0, category = "ERROR"):
         """
             Сформировать структуру response_class для описания ошибки
         Args:
@@ -71,24 +76,26 @@ class error_proxy:
         Returns:
             response_class: _description_
         """
-        
+
         if app is None:
             raise Exception("Некорректно переданы параметры!")
-        
+
         if http_code == 0:
             code = 500
         else:
             code = http_code
-        
+
         # Формируем описание        
-        json_text = json.dumps({"details" : message}, sort_keys = True, indent = 4,  ensure_ascii = False)  
-        
+        json_text = json.dumps({"details": message}, sort_keys=True, indent=4, ensure_ascii=False)
+
         # Формируем результат
         result = app.response_class(
-            response =   f"{json_text}",
-            status = code,
-            mimetype = "application/json; charset=utf-8"
-        )    
-        
+            response=f"{json_text}",
+            status=code,
+            mimetype="application/json; charset=utf-8"
+        )
+
+        log_entry = LogEntry(category, message)
+        storage_observer.raise_event(event_type.log_entry(log_entry))
+
         return result
-            

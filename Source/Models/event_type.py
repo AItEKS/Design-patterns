@@ -23,3 +23,10 @@ class event_type(reference):
             str: _description_
         """
         return "deleted_nomenclature"
+
+    @staticmethod
+    def log_entry(log_entry) -> str:
+        """
+        Event for a new log entry.
+        """
+        return "log_entry"

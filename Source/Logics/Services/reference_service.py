@@ -4,6 +4,7 @@ from Source.reference import reference
 from Source.Logics.storage_observer import storage_observer
 from Source.Models.event_type import event_type
 from Source.Logics.Services.post_processing_service import post_processing_service
+from Source.LogEntry import LogEntry
 
 
 #
@@ -23,6 +24,7 @@ class reference_service(service):
             return False
 
         self.data.append(item)
+        storage_observer.raise_event(event_type.log_entry(LogEntry("DEBUG", f"Adding reference: {item.id}")))
         return True
 
     def delete(self, item: reference) -> bool:
@@ -37,6 +39,7 @@ class reference_service(service):
         storage_observer.raise_event(event_type.deleted_nomenclature())
 
         self.data.remove(item)
+        storage_observer.raise_event(event_type.log_entry(LogEntry("DEBUG", f"Delete reference: {item.id}")))
         return True
 
     def change(self, item: reference) -> bool:
@@ -47,6 +50,7 @@ class reference_service(service):
 
         self.delete(found[0])
         self.add(item)
+        storage_observer.raise_event(event_type.log_entry(LogEntry("DEBUG", f"Changed reference: {item.id}")))
         return True
 
     def get(self) -> list:
@@ -58,6 +62,7 @@ class reference_service(service):
         if len(found) == 0:
             raise operation_exception(f"Не найден элемент с кодом {id}!")
 
+        storage_observer.raise_event(event_type.log_entry(LogEntry("DEBUG", f"Got reference: {found}")))
         return found
 
     def handle_event(self, handle_type: str):
